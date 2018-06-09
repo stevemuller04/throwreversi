@@ -5,9 +5,9 @@ Controller::Controller(
 	BoolPinInput const *playerA_input,
 	BoolPinInput const *playerB_input,
 	BoolPinInput const *playerX_input,
-	BoolPinOutput const *playerA_output,
-	BoolPinOutput const *playerB_output,
-	BoolPinOutput const *playerX_output,
+	BoolPinOutput *playerA_output,
+	BoolPinOutput *playerB_output,
+	BoolPinOutput *playerX_output,
 	bool (*player_can_move_callback)(Player, Tile const&),
 	void (*move_requested_callback)(Player, Tile const&)) :
 	_keypad_input(keypad_input),

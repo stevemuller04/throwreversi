@@ -10,14 +10,14 @@ class Task
 		/**
 		 * This method must be called when the task is about to be executed, before calling loop().
 		 */
-		virtual void setup();
+		virtual void setup() = 0;
 
 		/**
 		 * Executes the next instruction of the task.
 		 * This method must be continuously called to execute the task completely.
 		 * @return - Returns true when the loop method shall be called again. Returns false when the task has finished.
 		 */
-		virtual bool loop();
+		virtual bool loop() = 0;
 };
 
 #endif

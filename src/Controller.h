@@ -26,9 +26,9 @@ class Controller
 		BoolPinInput const *_playerA_input;
 		BoolPinInput const *_playerB_input;
 		BoolPinInput const *_playerX_input;
-		BoolPinOutput const *_playerA_output;
-		BoolPinOutput const *_playerB_output;
-		BoolPinOutput const *_playerX_output;
+		BoolPinOutput *_playerA_output;
+		BoolPinOutput *_playerB_output;
+		BoolPinOutput *_playerX_output;
 		bool (*_player_can_move_callback)(Player, Tile const&);
 		void (*_move_requested_callback)(Player, Tile const&);
 		Tile _read_coords;
@@ -51,9 +51,9 @@ class Controller
 			BoolPinInput const *playerA_input,
 			BoolPinInput const *playerB_input,
 			BoolPinInput const *playerX_input,
-			BoolPinOutput const *playerA_output,
-			BoolPinOutput const *playerB_output,
-			BoolPinOutput const *playerX_output,
+			BoolPinOutput *playerA_output,
+			BoolPinOutput *playerB_output,
+			BoolPinOutput *playerX_output,
 			bool (player_can_move_callback)(Player, Tile const&),
 			void (move_requested_callback)(Player, Tile const&));
 

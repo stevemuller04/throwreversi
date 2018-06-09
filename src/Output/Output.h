@@ -9,12 +9,12 @@ class Output {
 		/**
 		 * Sets the hardware interface up and prepares it for being controlled.
 		 */
-		virtual void setup();
+		virtual void setup() = 0;
 
 		/**
 		 * Sends all commands which have been buffered in this hardware interface to the attached device.
 		 */
-		virtual void flush();
+		virtual void flush() = 0;
 };
 
 #endif

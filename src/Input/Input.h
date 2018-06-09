@@ -9,12 +9,12 @@ class Input {
 		/**
 		 * Sets the hardware interface up and prepares it for reading.
 		 */
-		virtual void setup();
+		virtual void setup() = 0;
 
 		/**
 		 * Updates the hardware interface by reading the latest value from the attached device.
 		 */
-		virtual void update();
+		virtual void update() = 0;
 };
 
 #endif
