@@ -3,6 +3,7 @@
 
 #include "Input.h"
 #include "../types.h"
+#include <Keypad.h>
 
 /**
  * Hardware interface that provides functionality to read the pressed key of an attached key pad.
@@ -11,12 +12,16 @@ class KeypadInput : public Input {
 	private:
 		char _value;
 		char _previous_value;
+		char const *_keymap;
+		byte const _rowPins[4];
+		byte const _colPins[3];
+		Keypad _keypad;
 
 	public:
 		/**
 		 * Initializes a new KeypadInput instance.
 		 */
-		KeypadInput();
+		KeypadInput(pinId_t pin_row0, pinId_t pin_row1, pinId_t pin_row2, pinId_t pin_row3, pinId_t pin_col0, pinId_t pin_col1, pinId_t pin_col2);
 
 		/**
 		 * @see Input::setup()

@@ -28,7 +28,7 @@ Game& game = game_default;
 TaskManager tasks;
 // Inputs
 BoolPinInput input_godmode(PIN_IN_GODMODE, true);
-KeypadInput input_coord;
+KeypadInput input_coord(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2);
 BoolPinInput input_playerA(PIN_IN_PLAYER_A, true);
 BoolPinInput input_playerB(PIN_IN_PLAYER_B, true);
 BoolPinInput input_playerX(PIN_IN_PLAYER_X, true);

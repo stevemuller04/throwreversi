@@ -7,6 +7,13 @@
 #define PIN_IN_PLAYER_A            0
 #define PIN_IN_PLAYER_B            0
 #define PIN_IN_PLAYER_X            0
+#define PIN_IN_KEYPAD_ROW0         0
+#define PIN_IN_KEYPAD_ROW1         0
+#define PIN_IN_KEYPAD_ROW2         0
+#define PIN_IN_KEYPAD_ROW3         0
+#define PIN_IN_KEYPAD_COL0         0
+#define PIN_IN_KEYPAD_COL1         0
+#define PIN_IN_KEYPAD_COL2         0
 #define PIN_OUT_PLAYMODE           0
 #define PIN_OUT_GODMODE            0
 #define PIN_OUT_PLAYER_A           0
