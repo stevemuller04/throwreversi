@@ -1,7 +1,7 @@
 #include "TaskManager.h"
 #include <Arduino.h>
 
-void TaskManager::add(Task* task, time_t delay, bool delete_when_done)
+void TaskManager::add(Task* task, mtime_t delay, bool delete_when_done)
 {
 	// Create wrapper for task
 	TaskWrapper *wrapper = new TaskWrapper(task, millis(), delay, delete_when_done);
@@ -36,7 +36,7 @@ void TaskManager::clear()
 
 void TaskManager::loop()
 {
-	time_t const now = millis();
+	mtime_t const now = millis();
 
 	for (TaskWrapper *ptr = _tasks; ptr != nullptr; )
 	{

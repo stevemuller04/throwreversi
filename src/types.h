@@ -13,6 +13,6 @@ typedef uint16_t ledId_t;
 typedef uint8_t coord_t;
 
 /** The type used to refer to a period of time. Represents a number of milliseconds. */
-typedef unsigned long time_t;
+typedef unsigned long mtime_t;
 
 #endif

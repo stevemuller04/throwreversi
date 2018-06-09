@@ -3,7 +3,7 @@
 #include "../rgbw.h"
 #include <Arduino.h>
 
-RgbwFlashTask::RgbwFlashTask(RgbwLedStripOutput *output, ledId_t led_id, rgbw color, time_t interval, uint8_t repetitions) :
+RgbwFlashTask::RgbwFlashTask(RgbwLedStripOutput *output, ledId_t led_id, rgbw color, mtime_t interval, uint8_t repetitions) :
 	_output(output),
 	_led_id(led_id),
 	_color(color),
@@ -19,7 +19,7 @@ void RgbwFlashTask::setup()
 
 bool RgbwFlashTask::loop()
 {
-	time_t const now = millis();
+	mtime_t const now = millis();
 
 	// Skip all missed cycles
 	while (_repetitions > 0 && now - _start_time >= 2 * _interval)

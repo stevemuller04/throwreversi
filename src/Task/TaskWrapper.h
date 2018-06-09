@@ -11,12 +11,12 @@ struct TaskWrapper
 {
 	private:
 		Task * const task;
-		time_t const register_time;
+		mtime_t const register_time;
 		/**
 		 * The delay after register_time when the task shall be started.
 		 * The special value '-1' denotes the fact that the task has been started already.
 		 */
-		time_t delay;
+		mtime_t delay;
 		bool const delete_when_done;
 
 	public:
@@ -24,7 +24,7 @@ struct TaskWrapper
 		TaskWrapper *next = nullptr;
 
 	public:
-		TaskWrapper(Task* task, time_t register_time, time_t delay, bool delete_when_done) :
+		TaskWrapper(Task* task, mtime_t register_time, mtime_t delay, bool delete_when_done) :
 			task(task),
 			register_time(register_time),
 			delay(delay == -1 ? -2 : delay), // make sure that the value 0xFFFFFFFF is not accidentally used
@@ -38,7 +38,7 @@ struct TaskWrapper
 				delete task;
 		}
 
-		bool start(time_t now)
+		bool start(mtime_t now)
 		{
 			if (delay != -1 && register_time - now >= delay)
 			{

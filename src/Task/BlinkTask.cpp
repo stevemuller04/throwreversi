@@ -2,7 +2,7 @@
 #include "../types.h"
 #include <Arduino.h>
 
-BlinkTask::BlinkTask(BoolPinOutput *output, time_t interval, uint8_t repetitions) :
+BlinkTask::BlinkTask(BoolPinOutput *output, mtime_t interval, uint8_t repetitions) :
 	_output(output),
 	_interval(interval),
 	_repetitions(repetitions)
@@ -16,7 +16,7 @@ void BlinkTask::setup()
 
 bool BlinkTask::loop()
 {
-	time_t const now = millis();
+	mtime_t const now = millis();
 
 	// Skip all missed cycles
 	while (_repetitions > 0 && now - _start_time >= 2 * _interval)
