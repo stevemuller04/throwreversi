@@ -34,14 +34,19 @@ class KeypadInput : public Input {
 		virtual void update() override;
 
 		/**
-		 * Returns the value that has been read during the last call of update().
+		 * Checks if a key is being pressed.
+		 */
+		bool hasValue() const;
+
+		/**
+		 * Returns the key that is currently pressed.
 		 */
 		char getValue() const;
 
 		/**
-		 * Determines if the value that has been read using update() is different from the value that has been read in the previous call of update().
+		 * Determines if a new key has been pressed with last invokation of update().
 		 */
-		bool hasValueChanged() const;
+		bool hasNewValue() const;
 };
 
 #endif

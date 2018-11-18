@@ -33,7 +33,7 @@ void Controller::reset()
 void Controller::loop()
 {
 	// Special case: when ever the '#' or '*' key is pressed, the complete user input is discarded
-	if (_keypad_input->hasValueChanged() && (_keypad_input->getValue() == '#' || _keypad_input->getValue() == '*'))
+	if (_keypad_input->hasNewValue() && (_keypad_input->getValue() == '#' || _keypad_input->getValue() == '*'))
 	{
 		_state = State::WaitingForCoord0;
 		return; // we won't read a coordinate in loop_WaitingForCoord0() anyway, so abort completely
@@ -55,7 +55,7 @@ void Controller::loop()
 
 void Controller::loop_WaitingForCoord0()
 {
-	if (_keypad_input->hasValueChanged() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
+	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
 		_read_coords.x = _keypad_input->getValue() - '1';
 		_state = State::WaitingForCoord1;
@@ -64,7 +64,7 @@ void Controller::loop_WaitingForCoord0()
 
 void Controller::loop_WaitingForCoord1()
 {
-	if (_keypad_input->hasValueChanged() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
+	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
 		_read_coords.y = _keypad_input->getValue() - '1';
 		_state = State::WaitingForPlayer;
