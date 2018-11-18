@@ -18,6 +18,7 @@ class RgbwFlashTask : public Task
 		mtime_t const _interval;
 		uint8_t _repetitions;
 		mtime_t _start_time;
+		uint8_t _last_blink_state; // 0 = off, 1 = on, -1 = undetermined
 
 	public:
 		/**
