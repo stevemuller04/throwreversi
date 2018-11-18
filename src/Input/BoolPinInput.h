@@ -12,8 +12,9 @@ class BoolPinInput : public Input {
 	private:
 		pinId_t _pin;
 		bool _is_low_by_default;
-		uint8_t _value;
-		uint8_t _previous_value;
+		bool _pressed;
+		bool _previously_pressed;
+		bool _state;
 
 	public:
 		/**
