@@ -1,11 +1,12 @@
 #ifndef INCLUDE_SRC_CONTROLLER_H
 #define INCLUDE_SRC_CONTROLLER_H
 
-#include "Input/KeypadInput.h"
-#include "Input/BoolPinInput.h"
-#include "Output/BoolPinOutput.h"
-#include "Game/Player.h"
-#include "Game/Tile.h"
+#include "../Input/KeypadInput.h"
+#include "../Input/BoolPinInput.h"
+#include "../Output/BoolPinOutput.h"
+#include "../Game/Player.h"
+#include "../Game/Tile.h"
+#include "UserInput.h"
 
 /**
  * Controller that interacts with the hardware for processing the user input.
@@ -30,21 +31,13 @@ class Controller
 		BoolPinOutput *_playerB_output;
 		BoolPinOutput *_playerX_output;
 		bool (*_player_can_move_callback)(Player, Tile const&);
-		void (*_move_requested_callback)(Player, Tile const&);
-		Tile _read_coords;
+		UserInput _input;
 
 	public:
 		/**
 		 * Initializes a new Controller instance.
 		 * @param keypad_input - The hardware interface for reading coordinates from a keypad.
-		 * @param playerA_input - The hardware interface for the button that makes a move for player A.
-		 * @param playerB_input - The hardware interface for the button that makes a move for player B.
-		 * @param playerX_input - The hardware interface for the button that makes a move for the neutral player ('None').
-		 * @param playerA_output - The hardware interface for the LED that displays if a move for player A is possible.
-		 * @param playerB_output - The hardware interface for the LED that displays if a move for player B is possible.
-		 * @param playerX_output - The hardware interface for the LED that displays if a move for the neutral player ('None') is possible.
 		 * @param player_can_move_callback - A callback that determines whether a given player is allowed to move.
-		 * @param move_requested_callback - A callback that is called when a player move has been requested by the user via the hardware interfaces.
 		 */
 		Controller(
 			KeypadInput const *keypad_input,
@@ -54,8 +47,7 @@ class Controller
 			BoolPinOutput *playerA_output,
 			BoolPinOutput *playerB_output,
 			BoolPinOutput *playerX_output,
-			bool (player_can_move_callback)(Player, Tile const&),
-			void (move_requested_callback)(Player, Tile const&));
+			bool (player_can_move_callback)(Player, Tile const&));
 
 		/**
 		 * Resets the controller by discarding the current user input.
@@ -65,8 +57,9 @@ class Controller
 		/**
 		 * Retrieves user input from the hardware interfaces.
 		 * This method must be continuously called, such as in the main loop() method.
+		 * @return An input object describing the current user input.
 		 */
-		void loop();
+		UserInput loop();
 
 	private:
 		/** Main loop when this class is in state 'WaitingForCoord0'. */

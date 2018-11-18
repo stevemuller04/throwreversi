@@ -8,7 +8,7 @@
 #include "src/Input/KeypadInput.h"
 #include "src/Output/BoolPinOutput.h"
 #include "src/Output/RgbwLedStripOutput.h"
-#include "src/Controller.h"
+#include "src/Control/Controller.h"
 #include "src/Game/TileUpdate.h"
 #include "src/Task/RgbwFlashTask.h"
 #include "src/Task/BlinkTask.h"
@@ -48,8 +48,7 @@ Controller controller(
 	&output_playerA,
 	&output_playerB,
 	&output_playerX,
-	[&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); },
-	onPlayerMoveRequested);
+	[&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
 // Globals
 rgbw const color_playerA(COLOR_PLAYER_A);
 rgbw const color_playerB(COLOR_PLAYER_B);
@@ -103,8 +102,9 @@ void loop()
 	}
 
 	// Process user input
-	// Possibly triggers onPlayerMoveRequested()
-	controller.loop();
+	UserInput input = controller.loop();
+	if (input.has_changed && input.is_complete)
+		onPlayerMoveRequested(input.selected_player, input.selected_tile);
 
 	// Run tasks
 	tasks.loop();
