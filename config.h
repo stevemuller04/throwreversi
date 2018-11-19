@@ -3,23 +3,15 @@
 #define COLOR_PLAYER_A             255, 0, 0
 #define COLOR_PLAYER_B             0, 0, 255
 #define COLOR_PLAYER_X             0, 0, 0, 255
-#define PIN_IN_GODMODE             0
-#define PIN_IN_PLAYER_A            0
-#define PIN_IN_PLAYER_B            0
-#define PIN_IN_PLAYER_X            0
-#define PIN_IN_KEYPAD_ROW0         0
-#define PIN_IN_KEYPAD_ROW1         0
-#define PIN_IN_KEYPAD_ROW2         0
-#define PIN_IN_KEYPAD_ROW3         0
-#define PIN_IN_KEYPAD_COL0         0
-#define PIN_IN_KEYPAD_COL1         0
-#define PIN_IN_KEYPAD_COL2         0
-#define PIN_OUT_PLAYMODE           0
-#define PIN_OUT_GODMODE            0
-#define PIN_OUT_PLAYER_A           0
-#define PIN_OUT_PLAYER_B           0
-#define PIN_OUT_PLAYER_X           0
-#define PIN_OUT_BOARD              0
+#define PIN_IN_KEYPAD_ROW0         2
+#define PIN_IN_KEYPAD_ROW1         3
+#define PIN_IN_KEYPAD_ROW2         4
+#define PIN_IN_KEYPAD_ROW3         5
+#define PIN_IN_KEYPAD_COL0         6
+#define PIN_IN_KEYPAD_COL1         7
+#define PIN_IN_KEYPAD_COL2         8
+#define PIN_IN_KEYPAD_COL3         9
+#define PIN_OUT_BOARD              12 // not currently used
 #define FLAGS_NEOPIXEL             0
 #define ANIM_FLASH_TIME            100
 #define ANIM_FLASH_NUM             2

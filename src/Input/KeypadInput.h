@@ -14,14 +14,14 @@ class KeypadInput : public Input {
 		char _previous_value;
 		char const *_keymap;
 		byte const _rowPins[4];
-		byte const _colPins[3];
+		byte const _colPins[4];
 		Keypad _keypad;
 
 	public:
 		/**
 		 * Initializes a new KeypadInput instance.
 		 */
-		KeypadInput(pinId_t pin_row0, pinId_t pin_row1, pinId_t pin_row2, pinId_t pin_row3, pinId_t pin_col0, pinId_t pin_col1, pinId_t pin_col2);
+		KeypadInput(pinId_t pin_row0, pinId_t pin_row1, pinId_t pin_row2, pinId_t pin_row3, pinId_t pin_col0, pinId_t pin_col1, pinId_t pin_col2, pinId_t pin_col3);
 
 		/**
 		 * @see Input::setup()
