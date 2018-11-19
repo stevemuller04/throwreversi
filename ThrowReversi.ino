@@ -4,15 +4,12 @@
 #include "src/Game/DefaultGame.h"
 #include "src/Task/TaskManager.h"
 #include "src/types.h"
-#include "src/Input/BoolPinInput.h"
 #include "src/Input/KeypadInput.h"
-#include "src/Output/BoolPinOutput.h"
 #include "src/Output/RgbwLedStripOutput.h"
 #include "src/Control/Command.h"
 #include "src/Control/CommandReader.h"
+#include "src/Control/LedMatrixOutputManager.h"
 #include "src/Game/TileUpdate.h"
-#include "src/Task/RgbwFlashTask.h"
-#include "src/Task/BlinkTask.h"
 #include "config.h"
 
 // Forward-declare all functions in this file
@@ -20,7 +17,6 @@ void setup();
 void loop();
 void onGodModeToggled();
 void onPlayerMoveRequested(Player player, Tile const &tile);
-void syncTileLeds();
 
 // Model
 Board board(BOARD_WIDTH, BOARD_HEIGHT);
@@ -36,6 +32,7 @@ RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, 
 CommandReader controller(
 	&input_keypad,
 	[&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
+LedMatrixOutputManager matrix(BOARD_WIDTH, BOARD_HEIGHT, &output_tilecolors);
 // Globals
 rgbw const color_playerA(COLOR_PLAYER_A);
 rgbw const color_playerB(COLOR_PLAYER_B);
@@ -92,7 +89,6 @@ void onGodModeToggled()
 	// Reset state
 	controller.reset();
 	tasks.clear();
-	syncTileLeds();
 }
 
 /**
@@ -106,13 +102,11 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 	{
 		// Show move animation
 		tasks.clear();
-		syncTileLeds();
 		for (int i = 0; i < tileupdates_num; ++i)
 		{
 			Player const owner = tileupdates_buffer[i].owner;
 			rgbw const color = owner == Player::PlayerA ? color_playerA : owner == Player::PlayerB ? color_playerB : color_playerX;
-			ledId_t led_id = tileupdates_buffer[i].tile.y * board.getWidth() + tileupdates_buffer[i].tile.x;
-			tasks.add(new RgbwFlashTask(&output_tilecolors, led_id, color, ANIM_FLASH_TIME, ANIM_FLASH_NUM), i * ANIM_FLASH_DELAY_PER_LED, true);
+			matrix.setBaseColor(tileupdates_buffer[i].tile.x, tileupdates_buffer[i].tile.y, color);
 		}
 
 		// Tell the Game instance that a new round begins
@@ -122,26 +116,5 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 	{
 		// Show error animation
 		tasks.clear();
-		syncTileLeds();
-	}
-}
-
-/**
- * Synchronizes the LEDs of the tiles with the current value in the GameBoard instance.
- * This method should be always called after an animation was aborted; which can
- * potentially always be the case when the TaskManager is cleared.
- */
-void syncTileLeds()
-{
-	Tile tile;
-	for (tile.x = 0; tile.x < board.getWidth(); ++tile.x)
-	{
-		for (tile.y = 0; tile.y < board.getHeight(); ++tile.y)
-		{
-			Player owner = board.getTileOwner(tile);
-			output_tilecolors.setColor(
-				tile.y * board.getWidth() + tile.x,
-				owner == Player::PlayerA ? color_playerA : owner == Player::PlayerB ? color_playerB : color_playerX);
-		}
 	}
 }
