@@ -17,6 +17,8 @@ struct Tile
 
 	Tile() : x(TILE_COORD_UNDETERMINED), y(TILE_COORD_UNDETERMINED) { }
 	Tile(coord_t x, coord_t y) : x(x), y(y) { }
+
+	static Tile const Undetermined;
 };
 
 #endif

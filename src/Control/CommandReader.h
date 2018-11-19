@@ -31,7 +31,7 @@ class CommandReader
 		BoolPinOutput *_playerB_output;
 		BoolPinOutput *_playerX_output;
 		bool (*_player_can_move_callback)(Player, Tile const&);
-		Command _input;
+		Command _command;
 
 	public:
 		/**

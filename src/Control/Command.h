@@ -30,7 +30,7 @@ struct Command
 	 */
 	bool is_complete;
 
-	Command() : selected_tile(), selected_player(Player::None), has_changed(true), is_complete(false) { }
+	static Command const Empty;
 };
 
 #endif
