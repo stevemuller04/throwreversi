@@ -22,14 +22,14 @@ void onPlayerMoveRequested(Player player, Tile const &tile);
 Board board(BOARD_WIDTH, BOARD_HEIGHT);
 DefaultGame game_default;
 GodmodeGame game_godmode;
-Game& game = game_default;
+Game *game = &game_default;
 bool is_godmode = false;
 TaskManager tasks;
 
 // Input/output
 KeypadInput input_keypad(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2, PIN_IN_KEYPAD_COL3);
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
-CommandReader commandReader(&input_keypad, [&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
+CommandReader commandReader(&input_keypad, [&board, &game](Player player, Tile const& tile) { return game->playerCanMove(board, player, tile); });
 LedMatrixOutputManager outputManager(BOARD_WIDTH, BOARD_HEIGHT, &output_tilecolors);
 
 // Constants and temporary variables
@@ -45,7 +45,7 @@ void setup()
 	output_tilecolors.setup();
 
 	// Start the game
-	game.beginRound();
+	game->beginRound();
 }
 
 void loop()
@@ -88,7 +88,7 @@ void onGodModeToggled()
 	is_godmode = !is_godmode;
 
 	// Set up game logic
-	game = is_godmode ? (Game&)game_godmode : (Game&)game_default;
+	game = is_godmode ? (Game*)&game_godmode : (Game*)&game_default;
 
 	// Reset state and stop animations
 	commandReader.reset();
@@ -102,7 +102,7 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 {
 	// Make move
 	int tileupdates_num;
-	if (game.playerMove(board, player, tile, tileupdates_buffer, tileupdates_num))
+	if (game->playerMove(board, player, tile, tileupdates_buffer, tileupdates_num))
 	{
 		// Visualise move
 		for (int i = 0; i < tileupdates_num; ++i)
@@ -114,6 +114,6 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 		}
 
 		// Tell the Game instance that a new round begins
-		game.beginRound();
+		game->beginRound();
 	}
 }
