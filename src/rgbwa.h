@@ -9,8 +9,8 @@
  */
 struct rgbwa
 {
-	/** Initializes a default color (black). */
-	rgbwa(): color(rgbw::black), a(1.0) { }
+	/** Initializes a default color (transparent). */
+	rgbwa(): color(rgbw::black), a(0.0) { }
 
 	/** Initializes an opaque color (i.e. a = 1.0). */
 	rgbwa(rgbw color): color(color), a(1.0) { }
@@ -27,5 +27,7 @@ struct rgbwa
 	/** The alpha component of the color, ranging from 0.0 (transparent) to 1.0 (opaque). */
 	float a;
 };
+
+rgbw operator+(rgbw const &base, rgbwa const &overlay);
 
 #endif
