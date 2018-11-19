@@ -26,29 +26,14 @@ Board board(BOARD_WIDTH, BOARD_HEIGHT);
 DefaultGame game_default;
 GodmodeGame game_godmode;
 Game& game = game_default;
+bool is_godmode = false;
 TaskManager tasks;
-// Inputs
-BoolPinInput input_godmode(PIN_IN_GODMODE, true);
-KeypadInput input_coord(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2);
-BoolPinInput input_playerA(PIN_IN_PLAYER_A, true);
-BoolPinInput input_playerB(PIN_IN_PLAYER_B, true);
-BoolPinInput input_playerX(PIN_IN_PLAYER_X, true);
-// Outputs
-BoolPinOutput output_playmode(PIN_OUT_PLAYMODE, true);
-BoolPinOutput output_godmode(PIN_OUT_GODMODE, true);
-BoolPinOutput output_playerA(PIN_OUT_PLAYER_A, true);
-BoolPinOutput output_playerB(PIN_OUT_PLAYER_B, true);
-BoolPinOutput output_playerX(PIN_OUT_PLAYER_X, true);
+// Hardware
+KeypadInput input_keypad(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2);
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
-// Controller
+// Control
 CommandReader controller(
-	&input_coord,
-	&input_playerA,
-	&input_playerB,
-	&input_playerX,
-	&output_playerA,
-	&output_playerB,
-	&output_playerX,
+	&input_keypad,
 	[&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
 // Globals
 rgbw const color_playerA(COLOR_PLAYER_A);
@@ -60,16 +45,8 @@ TileUpdate tileupdates_buffer[2 * BOARD_WIDTH * BOARD_HEIGHT]; // used in onPlay
 void setup()
 {
 	// Initialize inputs and outputs
-	input_godmode.setup();
-	input_coord.setup();
-	input_playerA.setup();
-	input_playerB.setup();
-	input_playerX.setup();
-	output_playmode.setup();
-	output_godmode.setup();
-	output_playerA.setup();
-	output_playerB.setup();
-	output_playerX.setup();
+	input_keypad.setup();
+	output_tilecolors.setup();
 
 	// Start the game
 	game.beginRound();
@@ -78,16 +55,12 @@ void setup()
 void loop()
 {
 	// Update inputs
-	input_godmode.update();
-	input_coord.update();
-	input_playerA.update();
-	input_playerB.update();
-	input_playerX.update();
+	input_keypad.update();
 
 	// Determine the game mode (normal or god mode)
-	if (input_godmode.hasValueChanged())
+	if (input_keypad.hasNewValue() && input_keypad.getValue() == '#')
 	{
-		bool is_godmode = input_godmode.getValue();
+		is_godmode = !is_godmode;
 
 		// Set up game logic
 		game = is_godmode ? (Game&)game_godmode : (Game&)game_default;
@@ -96,26 +69,17 @@ void loop()
 		controller.reset();
 		tasks.clear();
 		syncTileLeds();
-
-		// Turn on appropriate LED
-		output_playmode.setValue(!is_godmode);
-		output_godmode.setValue(is_godmode);
 	}
 
 	// Process user input
-	Command input = controller.read();
-	if (input.has_changed && input.is_complete)
-		onPlayerMoveRequested(input.selected_player, input.selected_tile);
+	Command command = controller.read();
+	if (command.has_changed && command.is_complete)
+		onPlayerMoveRequested(command.selected_player, command.selected_tile);
 
 	// Run tasks
 	tasks.loop();
 
 	// Flush outputs
-	output_playmode.flush();
-	output_godmode.flush();
-	output_playerA.flush();
-	output_playerB.flush();
-	output_playerX.flush();
 	output_tilecolors.flush();
 }
 
@@ -147,9 +111,6 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 		// Show error animation
 		tasks.clear();
 		syncTileLeds();
-		tasks.add(new BlinkTask(&output_playerA, ANIM_BLINK_TIME, ANIM_BLINK_NUM), 0, true);
-		tasks.add(new BlinkTask(&output_playerB, ANIM_BLINK_TIME, ANIM_BLINK_NUM), 0, true);
-		tasks.add(new BlinkTask(&output_playerX, ANIM_BLINK_TIME, ANIM_BLINK_NUM), 0, true);
 	}
 }
 

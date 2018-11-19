@@ -2,8 +2,6 @@
 #define INCLUDE_SRC_COMMANDREADER_H
 
 #include "../Input/KeypadInput.h"
-#include "../Input/BoolPinInput.h"
-#include "../Output/BoolPinOutput.h"
 #include "../Game/Player.h"
 #include "../Game/Tile.h"
 #include "Command.h"
@@ -24,12 +22,6 @@ class CommandReader
 	private:
 		State _state = State::WaitingForCoord0;
 		KeypadInput const *_keypad_input;
-		BoolPinInput const *_playerA_input;
-		BoolPinInput const *_playerB_input;
-		BoolPinInput const *_playerX_input;
-		BoolPinOutput *_playerA_output;
-		BoolPinOutput *_playerB_output;
-		BoolPinOutput *_playerX_output;
 		bool (*_player_can_move_callback)(Player, Tile const&);
 		Command _command;
 
@@ -41,12 +33,6 @@ class CommandReader
 		 */
 		CommandReader(
 			KeypadInput const *keypad_input,
-			BoolPinInput const *playerA_input,
-			BoolPinInput const *playerB_input,
-			BoolPinInput const *playerX_input,
-			BoolPinOutput *playerA_output,
-			BoolPinOutput *playerB_output,
-			BoolPinOutput *playerX_output,
 			bool (player_can_move_callback)(Player, Tile const&));
 
 		/**
@@ -69,7 +55,7 @@ class CommandReader
 		/** Main loop when this class is in state 'WaitingForPlayer'. */
 		void read_WaitingForPlayer();
 		/** Called when the user has requested the move for the given player. */
-		void requestMove(Player player);
+		void tryRequestMove(Player player);
 };
 
 #endif
