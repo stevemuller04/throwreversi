@@ -5,6 +5,8 @@
 #include "../Output/RgbwLedStripOutput.h"
 #include "../types.h"
 
+#define FLASH_UNDEFINITELY -1
+
 /**
  * Represents a task that lets an RGBW LED flash a certain number of times.
  * After the task, the LED remains on.

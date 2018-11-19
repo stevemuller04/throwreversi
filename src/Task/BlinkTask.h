@@ -5,6 +5,8 @@
 #include "../Output/BoolPinOutput.h"
 #include "../types.h"
 
+#define BLINK_UNDEFINITELY -1
+
 /**
  * Represents a task that repeatedly turns on and off a boolean output.
 * After the task, the LED remains off.
@@ -16,6 +18,7 @@ class BlinkTask : public Task
 		mtime_t const _interval;
 		uint8_t _repetitions;
 		mtime_t _start_time;
+		uint8_t _last_blink_state; // 0 = off, 1 = on, -1 = undetermined
 
 	public:
 		/**

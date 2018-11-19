@@ -12,6 +12,7 @@ BlinkTask::BlinkTask(BoolPinOutput *output, mtime_t interval, uint8_t repetition
 void BlinkTask::setup()
 {
 	_start_time = millis();
+	_last_blink_state = -1; // make sure that the LED is refreshed in the first loop
 }
 
 bool BlinkTask::loop()
@@ -22,7 +23,8 @@ bool BlinkTask::loop()
 	while (_repetitions > 0 && now - _start_time >= 2 * _interval)
 	{
 		_start_time -= 2 * _interval;
-		--_repetitions;
+		if (_repetitions != BLINK_UNDEFINITELY)
+			--_repetitions;
 	}
 
 	// Check if the task is over
@@ -34,5 +36,9 @@ bool BlinkTask::loop()
 
 	// At this point, there is at least one repetition left, and the time since the last cycle is < 2 * _interval
 	// The value of the output thus depends on whether we are in the interval [0,_interval] or [_interval,2*_interval].
-	_output->setValue(now - _start_time < _interval);
+	uint8_t blink_state = now - _start_time < _interval ? 1 : 0;
+	if (blink_state != _last_blink_state) {
+		_last_blink_state = blink_state;
+		_output->setValue(blink_state);
+	}
 }

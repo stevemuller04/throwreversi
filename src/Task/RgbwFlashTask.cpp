@@ -26,7 +26,8 @@ bool RgbwFlashTask::loop()
 	while (_repetitions > 0 && now - _start_time >= 2 * _interval)
 	{
 		_start_time -= 2 * _interval;
-		--_repetitions;
+		if (_repetitions != FLASH_UNDEFINITELY)
+			--_repetitions;
 	}
 
 	// Check if the task is over
