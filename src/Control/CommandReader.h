@@ -45,15 +45,15 @@ class CommandReader
 		 * This method must be continuously called, such as in the main loop() method.
 		 * @return An input object describing the current user input.
 		 */
-		Command read();
+		Command update();
 
 	private:
 		/** Main loop when this class is in state 'WaitingForCoord0'. */
-		void read_WaitingForCoord0();
+		void update_WaitingForCoord0();
 		/** Main loop when this class is in state 'WaitingForCoord1'. */
-		void read_WaitingForCoord1();
+		void update_WaitingForCoord1();
 		/** Main loop when this class is in state 'WaitingForPlayer'. */
-		void read_WaitingForPlayer();
+		void update_WaitingForPlayer();
 		/** Called when the user has requested the move for the given player. */
 		void tryRequestMove(Player player);
 };

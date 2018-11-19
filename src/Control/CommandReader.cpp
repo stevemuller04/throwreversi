@@ -16,7 +16,7 @@ void CommandReader::reset()
 	_command = Command();
 }
 
-Command CommandReader::read()
+Command CommandReader::update()
 {
 	// When ever the '*' key is pressed, the complete user input is discarded
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() == '*')
@@ -32,13 +32,13 @@ Command CommandReader::read()
 		switch (_state)
 		{
 			case State::WaitingForCoord0:
-				read_WaitingForCoord0();
+				update_WaitingForCoord0();
 				break;
 			case State::WaitingForCoord1:
-				read_WaitingForCoord1();
+				update_WaitingForCoord1();
 				break;
 			case State::WaitingForPlayer:
-				read_WaitingForPlayer();
+				update_WaitingForPlayer();
 				break;
 		}
 
@@ -46,7 +46,7 @@ Command CommandReader::read()
 	}
 }
 
-void CommandReader::read_WaitingForCoord0()
+void CommandReader::update_WaitingForCoord0()
 {
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
@@ -56,7 +56,7 @@ void CommandReader::read_WaitingForCoord0()
 	}
 }
 
-void CommandReader::read_WaitingForCoord1()
+void CommandReader::update_WaitingForCoord1()
 {
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
@@ -66,7 +66,7 @@ void CommandReader::read_WaitingForCoord1()
 	}
 }
 
-void CommandReader::read_WaitingForPlayer()
+void CommandReader::update_WaitingForPlayer()
 {
 	if (_keypad_input->hasNewValue())
 	{

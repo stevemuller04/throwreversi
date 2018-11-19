@@ -25,20 +25,18 @@ GodmodeGame game_godmode;
 Game& game = game_default;
 bool is_godmode = false;
 TaskManager tasks;
-// Hardware
+
+// Input/output
 KeypadInput input_keypad(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2);
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
-// Control
-CommandReader controller(
-	&input_keypad,
-	[&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
-LedMatrixOutputManager matrix(BOARD_WIDTH, BOARD_HEIGHT, &output_tilecolors);
-// Globals
+CommandReader commandReader(&input_keypad, [&board, &game](Player player, Tile const& tile) { return game.playerCanMove(board, player, tile); });
+LedMatrixOutputManager outputManager(BOARD_WIDTH, BOARD_HEIGHT, &output_tilecolors);
+
+// Constants and temporary variables
 rgbw const color_playerA(COLOR_PLAYER_A);
 rgbw const color_playerB(COLOR_PLAYER_B);
 rgbw const color_playerX(COLOR_PLAYER_X);
-// Local variables that require memory allocation
-TileUpdate tileupdates_buffer[2 * BOARD_WIDTH * BOARD_HEIGHT]; // used in onPlayerMoveRequested()
+TileUpdate tileupdates_buffer[2 * BOARD_WIDTH * BOARD_HEIGHT]; // used as buffer in onPlayerMoveRequested()
 
 void setup()
 {
@@ -55,20 +53,26 @@ void loop()
 	// Update inputs
 	input_keypad.update();
 
-	// Determine the game mode (normal or god mode)
+	// Handle game mode toggling (normal or god mode)
 	if (input_keypad.hasNewValue() && input_keypad.getValue() == '#')
 	{
 		onGodModeToggled();
 	}
 
 	// Process user input
-	Command command = controller.read();
-	if (command.has_changed && command.is_complete)
+	Command command = commandReader.update();
+	if (command.has_changed)
 	{
-		onPlayerMoveRequested(command.selected_player, command.selected_tile);
+		// Stop animations after user input
+		tasks.clear();
+
+		if (command.is_complete)
+		{
+			onPlayerMoveRequested(command.selected_player, command.selected_tile);
+		}
 	}
 
-	// Run tasks
+	// Run animations
 	tasks.loop();
 
 	// Flush outputs
@@ -86,8 +90,8 @@ void onGodModeToggled()
 	// Set up game logic
 	game = is_godmode ? (Game&)game_godmode : (Game&)game_default;
 
-	// Reset state
-	controller.reset();
+	// Reset state and stop animations
+	commandReader.reset();
 	tasks.clear();
 }
 
@@ -100,21 +104,16 @@ void onPlayerMoveRequested(Player player, Tile const &tile)
 	int tileupdates_num;
 	if (game.playerMove(board, player, tile, tileupdates_buffer, tileupdates_num))
 	{
-		// Show move animation
-		tasks.clear();
+		// Visualise move
 		for (int i = 0; i < tileupdates_num; ++i)
 		{
+			// Set new base color for the tile
 			Player const owner = tileupdates_buffer[i].owner;
 			rgbw const color = owner == Player::PlayerA ? color_playerA : owner == Player::PlayerB ? color_playerB : color_playerX;
-			matrix.setBaseColor(tileupdates_buffer[i].tile.x, tileupdates_buffer[i].tile.y, color);
+			outputManager.setBaseColor(tileupdates_buffer[i].tile.x, tileupdates_buffer[i].tile.y, color);
 		}
 
 		// Tell the Game instance that a new round begins
 		game.beginRound();
-	}
-	else
-	{
-		// Show error animation
-		tasks.clear();
 	}
 }
