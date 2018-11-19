@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SRC_CONTROL_Command_H
-#define INCLUDE_SRC_CONTROL_Command_H
+#ifndef INCLUDE_SRC_CONTROL_COMMAND_H
+#define INCLUDE_SRC_CONTROL_COMMAND_H
 
 #include <Arduino.h>
 #include "../Game/Player.h"
