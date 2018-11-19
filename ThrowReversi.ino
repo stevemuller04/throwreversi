@@ -18,6 +18,7 @@
 // Forward-declare all functions in this file
 void setup();
 void loop();
+void onGodModeToggled();
 void onPlayerMoveRequested(Player player, Tile const &tile);
 void syncTileLeds();
 
@@ -60,21 +61,15 @@ void loop()
 	// Determine the game mode (normal or god mode)
 	if (input_keypad.hasNewValue() && input_keypad.getValue() == '#')
 	{
-		is_godmode = !is_godmode;
-
-		// Set up game logic
-		game = is_godmode ? (Game&)game_godmode : (Game&)game_default;
-
-		// Reset state
-		controller.reset();
-		tasks.clear();
-		syncTileLeds();
+		onGodModeToggled();
 	}
 
 	// Process user input
 	Command command = controller.read();
 	if (command.has_changed && command.is_complete)
+	{
 		onPlayerMoveRequested(command.selected_player, command.selected_tile);
+	}
 
 	// Run tasks
 	tasks.loop();
@@ -84,7 +79,24 @@ void loop()
 }
 
 /**
- * Called when the user requested a player's move via the hardware interfaces.
+ * Called when the user requested entering/leaving the god mode.
+ */
+void onGodModeToggled()
+{
+	// Toggle flag
+	is_godmode = !is_godmode;
+
+	// Set up game logic
+	game = is_godmode ? (Game&)game_godmode : (Game&)game_default;
+
+	// Reset state
+	controller.reset();
+	tasks.clear();
+	syncTileLeds();
+}
+
+/**
+ * Called when the user requested a player's move.
  */
 void onPlayerMoveRequested(Player player, Tile const &tile)
 {
