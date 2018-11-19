@@ -51,7 +51,10 @@ void CommandReader::update_WaitingForCoord0()
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
 		_command.selected_tile.x = _keypad_input->getValue() - '1';
+		_command.selected_tile.y = TILE_COORD_UNDETERMINED;
+		_command.selected_player = Player::None;
 		_command.has_changed = true;
+		_command.is_complete = false;
 		_state = State::WaitingForCoord1;
 	}
 }
@@ -61,7 +64,9 @@ void CommandReader::update_WaitingForCoord1()
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
 		_command.selected_tile.y = _keypad_input->getValue() - '1';
+		_command.selected_player = Player::None;
 		_command.has_changed = true;
+		_command.is_complete = false;
 		_state = State::WaitingForPlayer;
 	}
 }
