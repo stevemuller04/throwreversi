@@ -1,17 +1,17 @@
-#ifndef INCLUDE_SRC_CONTROLLER_H
-#define INCLUDE_SRC_CONTROLLER_H
+#ifndef INCLUDE_SRC_COMMANDREADER_H
+#define INCLUDE_SRC_COMMANDREADER_H
 
 #include "../Input/KeypadInput.h"
 #include "../Input/BoolPinInput.h"
 #include "../Output/BoolPinOutput.h"
 #include "../Game/Player.h"
 #include "../Game/Tile.h"
-#include "UserInput.h"
+#include "Command.h"
 
 /**
- * Controller that interacts with the hardware for processing the user input.
+ * Class that interacts with the hardware for retrieving a command (= the user input).
  */
-class Controller
+class CommandReader
 {
 	private:
 		enum State
@@ -31,15 +31,15 @@ class Controller
 		BoolPinOutput *_playerB_output;
 		BoolPinOutput *_playerX_output;
 		bool (*_player_can_move_callback)(Player, Tile const&);
-		UserInput _input;
+		Command _input;
 
 	public:
 		/**
-		 * Initializes a new Controller instance.
+		 * Initializes a new CommandReader instance.
 		 * @param keypad_input - The hardware interface for reading coordinates from a keypad.
 		 * @param player_can_move_callback - A callback that determines whether a given player is allowed to move.
 		 */
-		Controller(
+		CommandReader(
 			KeypadInput const *keypad_input,
 			BoolPinInput const *playerA_input,
 			BoolPinInput const *playerB_input,
@@ -50,7 +50,7 @@ class Controller
 			bool (player_can_move_callback)(Player, Tile const&));
 
 		/**
-		 * Resets the controller by discarding the current user input.
+		 * Resets the CommandReader by discarding the current user input.
 		 */
 		void reset();
 
@@ -59,15 +59,15 @@ class Controller
 		 * This method must be continuously called, such as in the main loop() method.
 		 * @return An input object describing the current user input.
 		 */
-		UserInput loop();
+		Command read();
 
 	private:
 		/** Main loop when this class is in state 'WaitingForCoord0'. */
-		void loop_WaitingForCoord0();
+		void read_WaitingForCoord0();
 		/** Main loop when this class is in state 'WaitingForCoord1'. */
-		void loop_WaitingForCoord1();
+		void read_WaitingForCoord1();
 		/** Main loop when this class is in state 'WaitingForPlayer'. */
-		void loop_WaitingForPlayer();
+		void read_WaitingForPlayer();
 		/** Called when the user has requested the move for the given player. */
 		void requestMove(Player player);
 };

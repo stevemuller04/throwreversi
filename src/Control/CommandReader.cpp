@@ -1,7 +1,7 @@
-#include "Controller.h"
-#include "UserInput.h"
+#include "CommandReader.h"
+#include "Command.h"
 
-Controller::Controller(
+CommandReader::CommandReader(
 	KeypadInput const *keypad_input,
 	BoolPinInput const *playerA_input,
 	BoolPinInput const *playerB_input,
@@ -22,23 +22,23 @@ Controller::Controller(
 {
 }
 
-void Controller::reset()
+void CommandReader::reset()
 {
 	_state = State::WaitingForCoord0;
-	_input = UserInput();
+	_input = Command();
 	_playerA_output->setValue(false);
 	_playerB_output->setValue(false);
 	_playerX_output->setValue(false);
 }
 
-UserInput Controller::loop()
+Command CommandReader::read()
 {
 	// Special case: when ever the '#' or '*' key is pressed, the complete user input is discarded
 	if (_keypad_input->hasNewValue() && (_keypad_input->getValue() == '#' || _keypad_input->getValue() == '*'))
 	{
 		_state = State::WaitingForCoord0;
-		_input = UserInput();
-		return _input; // we won't read a coordinate in loop_WaitingForCoord0() anyway, so abort completely
+		_input = Command();
+		return _input; // we won't read a coordinate in read_WaitingForCoord0() anyway, so abort completely
 	}
 
 	_input.has_changed = false; // unless one of the functions below change something
@@ -46,20 +46,20 @@ UserInput Controller::loop()
 	switch (_state)
 	{
 		case State::WaitingForCoord0:
-			loop_WaitingForCoord0();
+			read_WaitingForCoord0();
 			break;
 		case State::WaitingForCoord1:
-			loop_WaitingForCoord1();
+			read_WaitingForCoord1();
 			break;
 		case State::WaitingForPlayer:
-			loop_WaitingForPlayer();
+			read_WaitingForPlayer();
 			break;
 	}
 
 	return _input;
 }
 
-void Controller::loop_WaitingForCoord0()
+void CommandReader::read_WaitingForCoord0()
 {
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
@@ -69,7 +69,7 @@ void Controller::loop_WaitingForCoord0()
 	}
 }
 
-void Controller::loop_WaitingForCoord1()
+void CommandReader::read_WaitingForCoord1()
 {
 	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
 	{
@@ -83,7 +83,7 @@ void Controller::loop_WaitingForCoord1()
 	}
 }
 
-void Controller::loop_WaitingForPlayer()
+void CommandReader::read_WaitingForPlayer()
 {
 	if (_playerA_input->hasValueChanged() && _playerA_input->getValue() && _player_can_move_callback(Player::PlayerA, _input.selected_tile))
 	{
@@ -99,7 +99,7 @@ void Controller::loop_WaitingForPlayer()
 	}
 }
 
-void Controller::requestMove(Player player)
+void CommandReader::requestMove(Player player)
 {
 	_playerA_output->setValue(false);
 	_playerB_output->setValue(false);

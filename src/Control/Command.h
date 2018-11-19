@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SRC_CONTROL_USERINPUT_H
-#define INCLUDE_SRC_CONTROL_USERINPUT_H
+#ifndef INCLUDE_SRC_CONTROL_Command_H
+#define INCLUDE_SRC_CONTROL_Command_H
 
 #include <Arduino.h>
 #include "../Game/Player.h"
@@ -8,7 +8,7 @@
 /**
  * Represents user input from the user.
  */
-struct UserInput
+struct Command
 {
 	/**
 	 * The tile selected by the user. Might not be fully determined.
@@ -30,7 +30,7 @@ struct UserInput
 	 */
 	bool is_complete;
 
-	UserInput() : selected_tile(), selected_player(Player::None), has_changed(true), is_complete(false) { }
+	Command() : selected_tile(), selected_player(Player::None), has_changed(true), is_complete(false) { }
 };
 
 #endif

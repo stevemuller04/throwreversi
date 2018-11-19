@@ -8,7 +8,8 @@
 #include "src/Input/KeypadInput.h"
 #include "src/Output/BoolPinOutput.h"
 #include "src/Output/RgbwLedStripOutput.h"
-#include "src/Control/Controller.h"
+#include "src/Control/Command.h"
+#include "src/Control/CommandReader.h"
 #include "src/Game/TileUpdate.h"
 #include "src/Task/RgbwFlashTask.h"
 #include "src/Task/BlinkTask.h"
@@ -40,7 +41,7 @@ BoolPinOutput output_playerB(PIN_OUT_PLAYER_B, true);
 BoolPinOutput output_playerX(PIN_OUT_PLAYER_X, true);
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
 // Controller
-Controller controller(
+CommandReader controller(
 	&input_coord,
 	&input_playerA,
 	&input_playerB,
@@ -102,7 +103,7 @@ void loop()
 	}
 
 	// Process user input
-	UserInput input = controller.loop();
+	Command input = controller.read();
 	if (input.has_changed && input.is_complete)
 		onPlayerMoveRequested(input.selected_player, input.selected_tile);
 
