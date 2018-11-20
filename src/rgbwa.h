@@ -29,5 +29,7 @@ struct rgbwa
 };
 
 rgbw operator+(rgbw const &base, rgbwa const &overlay);
+bool operator==(rgbwa const &a, rgbwa const &b);
+bool operator!=(rgbwa const &a, rgbwa const &b);
 
 #endif

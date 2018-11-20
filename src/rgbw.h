@@ -34,4 +34,7 @@ struct rgbw
 	static rgbw const black;
 };
 
+bool operator==(rgbw const &a, rgbw const &b);
+bool operator!=(rgbw const &a, rgbw const &b);
+
 #endif

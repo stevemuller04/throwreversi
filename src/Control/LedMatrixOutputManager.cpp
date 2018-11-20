@@ -5,6 +5,10 @@ LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, Rg
 	_width(width),
 	_height(height)
 {
+	_base = new rgbw[width * height];
+	_overlay = new rgbwa[width * height];
+	memset(_base, 0, width * height * sizeof(rgbw));
+	memset(_overlay, 0, width * height * sizeof(rgbwa));
 }
 
 void LedMatrixOutputManager::loop()
@@ -26,11 +30,23 @@ ledId_t LedMatrixOutputManager::getLedId(coord_t x, coord_t y) const
 void LedMatrixOutputManager::setBaseColor(coord_t x, coord_t y, rgbw color)
 {
 	if (0 <= x && x < _width && 0 <= y && y < _height)
-		_base[x, y] = color;
+	{
+		if (_base[x, y] != color)
+		{
+			_base[x, y] = color;
+			_need_flush = true;
+		}
+	}
 }
 
 void LedMatrixOutputManager::setOverlayColor(coord_t x, coord_t y, rgbwa color)
 {
 	if (0 <= x && x < _width && 0 <= y && y < _height)
-		_overlay[x, y] = color;
+	{
+		if (_overlay[x, y] != color)
+		{
+			_overlay[x, y] = color;
+			_need_flush = true;
+		}
+	}
 }
