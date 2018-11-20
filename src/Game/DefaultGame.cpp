@@ -30,9 +30,9 @@ bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove
 	++num_updates;
 
 	// Pick a direction
-	for (uint8_t dx = -1; dx <= 1; ++dx)
-	for (uint8_t dy = -1; dy <= 1; ++dy)
-	if (dx != 0 || dy != 0)
+	for (int8_t dx = -1; dx <= 1; ++dx)
+	for (int8_t dy = -1; dy <= 1; ++dy)
+	if ((dx == 0) ^ (dy == 0))
 	{
 		// Find the first tile in that direction which belongs to the current player
 		Tile ptr;
