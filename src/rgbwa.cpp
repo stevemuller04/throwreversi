@@ -1,6 +1,8 @@
 #include "rgbw.h"
 #include "rgbwa.h"
 
+rgbwa const rgbwa::transparent;
+
 rgbw operator+(rgbw const &base, rgbwa const &overlay)
 {
 	rgbw result;

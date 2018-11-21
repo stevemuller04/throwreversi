@@ -26,6 +26,9 @@ struct rgbwa
 
 	/** The alpha component of the color, ranging from 0.0 (transparent) to 1.0 (opaque). */
 	float a;
+
+	/** A transparent color (A=0). */
+	static rgbwa const transparent;
 };
 
 rgbw operator+(rgbw const &base, rgbwa const &overlay);
