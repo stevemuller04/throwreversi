@@ -79,7 +79,7 @@ void loop()
 	tasks.loop();
 
 	// Flush outputs
-	output_tilecolors.flush();
+	output_manager.flush();
 }
 
 /**

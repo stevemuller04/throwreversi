@@ -11,7 +11,7 @@ LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, Rg
 	memset(_overlay, 0, width * height * sizeof(rgbwa));
 }
 
-void LedMatrixOutputManager::loop()
+void LedMatrixOutputManager::flush()
 {
 	if (_need_flush)
 	{
@@ -19,6 +19,8 @@ void LedMatrixOutputManager::loop()
 			for (coord_t y = 0; y < _height; y++)
 				_output->setColor(getLedId(x, y), _base[y * _height + x] + _overlay[y * _height + x]);
 		_need_flush = false;
+
+		_output->flush();
 	}
 }
 

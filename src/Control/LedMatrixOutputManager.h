@@ -25,7 +25,7 @@ class LedMatrixOutputManager
 
 	public:
 		LedMatrixOutputManager(coord_t width, coord_t height, RgbwLedStripOutput *output);
-		void loop();
+		void flush();
 		void setBaseColor(coord_t x, coord_t y, rgbw color);
 		void setOverlayColor(coord_t x, coord_t y, rgbwa color);
 };
