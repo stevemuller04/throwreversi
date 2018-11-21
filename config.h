@@ -12,7 +12,7 @@
 #define PIN_IN_KEYPAD_COL2         8
 #define PIN_IN_KEYPAD_COL3         9
 #define PIN_OUT_BOARD              12 // not currently used
-#define FLAGS_NEOPIXEL             0
+#define FLAGS_NEOPIXEL             NEO_KHZ800 | NEO_GRBW
 #define ANIM_FLASH_TIME            100
 #define ANIM_FLASH_NUM             2
 #define ANIM_FLASH_DELAY_PER_LED   100
