@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SRC_RGBWT_H
-#define INCLUDE_SRC_RGBWT_H
+#ifndef INCLUDE_SRC_RGBWA_H
+#define INCLUDE_SRC_RGBWA_H
 
 #include <Arduino.h>
 #include "rgbw.h"

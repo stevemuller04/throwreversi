@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SRC_TASK_RgbwaFlashTask_H
-#define INCLUDE_SRC_TASK_RgbwaFlashTask_H
+#ifndef INCLUDE_SRC_TASK_RGBWAFLASHTASK_H
+#define INCLUDE_SRC_TASK_RGBWAFLASHTASK_H
 
 #include "Task.h"
 #include "../Control/LedMatrixOutputManager.h"
