@@ -29,7 +29,7 @@ TaskManager tasks;
 
 // Input/output
 KeypadInput input_keypad(PIN_IN_KEYPAD_ROW0, PIN_IN_KEYPAD_ROW1, PIN_IN_KEYPAD_ROW2, PIN_IN_KEYPAD_ROW3, PIN_IN_KEYPAD_COL0, PIN_IN_KEYPAD_COL1, PIN_IN_KEYPAD_COL2, PIN_IN_KEYPAD_COL3);
-RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
+RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT * 2, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
 CommandReader commandReader(&input_keypad, [&board, &game](Player player, Tile const& tile) { return game->playerCanMove(board, player, tile); });
 LedMatrixOutputManager output_manager(BOARD_WIDTH, BOARD_HEIGHT, &output_tilecolors);
 
@@ -101,7 +101,7 @@ void onGodModeToggled()
 	rgbwa color_overlay(0, 0, 0, 0, 0.2);
 	for (coord_t x = 0; x < BOARD_WIDTH; ++x)
 		for (coord_t y = 0; y < BOARD_HEIGHT; ++y)
-			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, 500, 4), 0, true);
+			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, ANIM_FLASH_TIME, ANIM_FLASH_NUM), 0, true);
 }
 
 /**
