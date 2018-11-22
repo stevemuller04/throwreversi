@@ -23,7 +23,6 @@ bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove
 		return false;
 
 	// Conquer at least this tile
-	board.setTileOwner(tileOfMove, player);
 	updates[0].tile = tileOfMove;
 	updates[0].owner = player;
 	updates[0].previous_owner = Player::None;
@@ -68,6 +67,10 @@ bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove
 			}
 		}
 	}
+
+	// Update board
+	for (int i = 0; i < num_updates; ++i)
+		board.setTileOwner(updates[i].tile, updates[0].owner);
 
 	// The move was legal
 	return true;
