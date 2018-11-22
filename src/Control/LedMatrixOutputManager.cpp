@@ -9,6 +9,9 @@ LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, Rg
 	_overlay = new rgbwa[width * height];
 	memset(_base, 0, width * height * sizeof(rgbw));
 	memset(_overlay, 0, width * height * sizeof(rgbwa));
+
+	for (int i = 0; i < width * height; ++i)
+		_base[i].w = 0xFF;
 }
 
 void LedMatrixOutputManager::flush()
