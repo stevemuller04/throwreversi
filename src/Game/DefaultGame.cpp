@@ -32,7 +32,7 @@ bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove
 	// Pick a direction
 	for (int8_t dx = -1; dx <= 1; ++dx)
 	for (int8_t dy = -1; dy <= 1; ++dy)
-	if ((dx == 0) ^ (dy == 0))
+	if (dx != 0 || dy != 0) // vertically, horizontally, or diagonally
 	{
 		// Find the first tile in that direction which belongs to the current player
 		Tile ptr;
