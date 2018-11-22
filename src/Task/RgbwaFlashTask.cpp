@@ -26,7 +26,7 @@ bool RgbwaFlashTask::loop()
 	// Skip all missed cycles
 	while (_repetitions > 0 && now - _start_time >= 2 * _interval)
 	{
-		_start_time -= 2 * _interval;
+		_start_time += 2 * _interval;
 		if (_repetitions != FLASH_UNDEFINITELY)
 			--_repetitions;
 	}
