@@ -41,6 +41,9 @@ TileUpdate tileupdates_buffer[2 * BOARD_WIDTH * BOARD_HEIGHT]; // used as buffer
 
 void setup()
 {
+	pinMode(LED_BUILTIN, OUTPUT);
+	digitalWrite(LED_BUILTIN, LOW);
+
 	// Initialize inputs and outputs
 	input_keypad.setup();
 	output_tilecolors.setup();
@@ -89,6 +92,7 @@ void onGodModeToggled()
 {
 	// Toggle flag
 	is_godmode = !is_godmode;
+	digitalWrite(LED_BUILTIN, is_godmode ? HIGH : LOW);
 
 	// Set up game logic
 	game = is_godmode ? (Game*)&game_godmode : (Game*)&game_default;
@@ -98,7 +102,7 @@ void onGodModeToggled()
 	tasks.clear();
 
 	// Show god mode animation
-	rgbwa color_overlay(0, 0, 0, 0, 0.2);
+	rgbwa color_overlay(0, 0, 0, 0, 0.7);
 	for (coord_t x = 0; x < BOARD_WIDTH; ++x)
 		for (coord_t y = 0; y < BOARD_HEIGHT; ++y)
 			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, ANIM_FLASH_TIME, ANIM_FLASH_NUM), 0, true);
