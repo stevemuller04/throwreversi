@@ -14,6 +14,12 @@ LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, Rg
 		_base[i].w = 0xFF;
 }
 
+LedMatrixOutputManager::~LedMatrixOutputManager()
+{
+	delete[] _overlay;
+	delete[] _base;
+}
+
 void LedMatrixOutputManager::flush()
 {
 	if (_need_flush)

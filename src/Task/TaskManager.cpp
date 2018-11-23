@@ -1,6 +1,11 @@
 #include "TaskManager.h"
 #include <Arduino.h>
 
+TaskManager::~TaskManager()
+{
+	clear();
+}
+
 void TaskManager::add(Task* task, mtime_t delay, bool delete_when_done)
 {
 	// Create wrapper for task

@@ -13,6 +13,8 @@ class TaskManager
 		TaskWrapper *_tasks = nullptr;
 
 	public:
+		~TaskManager();
+
 		/**
 		 * Adds the given task to the manager.
 		 * It will be executed after the given delay.
