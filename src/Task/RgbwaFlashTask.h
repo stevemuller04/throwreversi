@@ -17,7 +17,8 @@ class RgbwaFlashTask : public Task
 		LedMatrixOutputManager * const _output;
 		coord_t const _x;
 		coord_t const _y;
-		rgbwa const _color;
+		rgbwa const _initial_color;
+		rgbwa const _final_color;
 		mtime_t const _interval;
 		uint8_t _repetitions;
 		mtime_t _start_time;
@@ -34,7 +35,7 @@ class RgbwaFlashTask : public Task
 		 * @param repetitions - The number of times that the output shall flash (= turned off and on).
 		 * For example, repetitions = 2 will turn the output off, on, off, on.
 		 */
-		RgbwaFlashTask(LedMatrixOutputManager *output, coord_t x, coord_t y, rgbwa color, mtime_t interval, uint8_t repetitions);
+		RgbwaFlashTask(LedMatrixOutputManager *output, coord_t x, coord_t y, rgbwa initial_color, rgbwa final_color, mtime_t interval, uint8_t repetitions);
 
 		/**
 		 * @see Task::setup()

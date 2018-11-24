@@ -41,14 +41,15 @@ class Engine
 	public:
 		Engine(KeypadInput &input_keypad, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
 		~Engine();
-		setup();
-		loop();
+		void setup();
+		void loop();
 
 	private:
-		handleInput();
-		handleInput_GodMode();
-		handleInput_Command(Player player, Tile tile);
-		stopAnimations();
+		void handleInput();
+		void handleInput_GodMode();
+		void handleInput_Command(Player player, Tile tile);
+		void stopAnimations();
+		rgbw getPlayerColor(Player player);
 };
 
 #endif

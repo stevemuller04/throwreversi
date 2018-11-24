@@ -5,3 +5,6 @@
 #define ANIM_GODMODE_FLASH_TIME        100
 #define ANIM_GODMODE_FLASH_NUM         3
 #define ANIM_GODMODE_FLASH_ALPHA       0.7
+
+#define ANIM_CONQUER_FLASH_TIME        250
+#define ANIM_CONQUER_FLASH_NUM         2
