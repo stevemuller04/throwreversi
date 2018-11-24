@@ -85,10 +85,10 @@ Engine::handleInput_GodMode()
 	stopAnimations();
 
 	// Show god mode animation
-	rgbwa color_overlay(0, 0, 0, 0, ANIM_FLASH_ALPHA);
+	rgbwa color_overlay(0, 0, 0, 0, ANIM_GODMODE_FLASH_ALPHA);
 	for (coord_t x = 0; x < width; ++x)
 		for (coord_t y = 0; y < height; ++y)
-			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, ANIM_FLASH_TIME, ANIM_FLASH_NUM), 0, true);
+			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, ANIM_GODMODE_FLASH_TIME, ANIM_GODMODE_FLASH_NUM), 0, true);
 }
 
 Engine::handleInput_Command(Player player, Tile tile)
