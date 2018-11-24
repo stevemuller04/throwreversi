@@ -6,7 +6,7 @@ TaskManager::~TaskManager()
 	clear();
 }
 
-void TaskManager::add(Task* task, mtime_t delay, bool delete_when_done)
+void TaskManager::add(Task *task, mtime_t delay, bool delete_when_done)
 {
 	// Create wrapper for task
 	TaskWrapper *wrapper = new TaskWrapper(task, millis(), delay, delete_when_done);

@@ -1,7 +1,7 @@
 #include "CommandReader.h"
 #include "Command.h"
 
-CommandReader::CommandReader(KeypadInput const *keypad_input) :
+CommandReader::CommandReader(KeypadInput &keypad_input) :
 	_keypad_input(keypad_input),
 	_command(Command::Empty)
 {
@@ -16,7 +16,7 @@ void CommandReader::reset()
 Command CommandReader::update()
 {
 	// When ever the '*' key is pressed, the complete user input is discarded
-	if (_keypad_input->hasNewValue() && _keypad_input->getValue() == '*')
+	if (_keypad_input.hasNewValue() && _keypad_input.getValue() == '*')
 	{
 		_state = State::WaitingForCoord0;
 		return _command = Command::Empty;
@@ -45,10 +45,10 @@ Command CommandReader::update()
 
 void CommandReader::update_WaitingForCoord0()
 {
-	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
+	if (_keypad_input.hasNewValue() && _keypad_input.getValue() >= '1' && _keypad_input.getValue() <= '9')
 	{
 		_command.selected_tile.x = TILE_COORD_UNDETERMINED;
-		_command.selected_tile.y = _keypad_input->getValue() - '1';
+		_command.selected_tile.y = _keypad_input.getValue() - '1';
 		_command.selected_player = Player::None;
 		_command.has_changed = true;
 		_command.is_complete = false;
@@ -58,9 +58,9 @@ void CommandReader::update_WaitingForCoord0()
 
 void CommandReader::update_WaitingForCoord1()
 {
-	if (_keypad_input->hasNewValue() && _keypad_input->getValue() >= '1' && _keypad_input->getValue() <= '9')
+	if (_keypad_input.hasNewValue() && _keypad_input.getValue() >= '1' && _keypad_input.getValue() <= '9')
 	{
-		_command.selected_tile.x = _keypad_input->getValue() - '1';
+		_command.selected_tile.x = _keypad_input.getValue() - '1';
 		_command.selected_player = Player::None;
 		_command.has_changed = true;
 		_command.is_complete = false;
@@ -70,9 +70,9 @@ void CommandReader::update_WaitingForCoord1()
 
 void CommandReader::update_WaitingForPlayer()
 {
-	if (_keypad_input->hasNewValue())
+	if (_keypad_input.hasNewValue())
 	{
-		switch (_keypad_input->getValue())
+		switch (_keypad_input.getValue())
 		{
 			case 'A':
 				tryRequestMove(Player::PlayerA);

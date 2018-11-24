@@ -13,18 +13,18 @@
 class LedMatrixOutputManager
 {
 	private:
-		coord_t _width;
-		coord_t _height;
-		rgbw *_base;
-		rgbwa *_overlay;
+		coord_t const _width;
+		coord_t const _height;
+		rgbw * const _base;
+		rgbwa * const _overlay;
 		bool _need_flush = true;
-		RgbwLedStripOutput *_output;
+		RgbwLedStripOutput &_output;
 
 	private:
 		ledId_t getLedId(coord_t x, coord_t y) const;
 
 	public:
-		LedMatrixOutputManager(coord_t width, coord_t height, RgbwLedStripOutput *output);
+		LedMatrixOutputManager(coord_t width, coord_t height, RgbwLedStripOutput &output);
 		~LedMatrixOutputManager();
 		void flush();
 		void setBaseColor(coord_t x, coord_t y, rgbw color);

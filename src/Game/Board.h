@@ -11,9 +11,9 @@
 class Board
 {
 	private:
-		coord_t _width;
-		coord_t _height;
-		Player* _owners;
+		coord_t const _width;
+		coord_t const _height;
+		Player * const _owners;
 
 	public:
 		/**

@@ -14,7 +14,7 @@ bool DefaultGame::playerCanMove(Board const &board, Player player, Tile const &t
 		player == Player::PlayerB;
 }
 
-bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove, TileUpdate* updates, int &num_updates)
+bool DefaultGame::playerMove(Board &board, Player player, Tile const &tileOfMove, TileUpdate *updates, int &num_updates)
 {
 	num_updates = 0;
 

@@ -11,7 +11,7 @@ bool GodmodeGame::playerCanMove(Board const &board, Player player, Tile const &t
 	return true;
 }
 
-bool GodmodeGame::playerMove(Board &board, Player player, Tile const &tile, TileUpdate* updates, int &num_updates)
+bool GodmodeGame::playerMove(Board &board, Player player, Tile const &tile, TileUpdate *updates, int &num_updates)
 {
 	// In god mode, we only change the owner of the given tile; there is no further game logic
 

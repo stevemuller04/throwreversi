@@ -23,7 +23,7 @@ class GodmodeGame : public Game
 		/**
 		 * @see Game::playerMove()
 		 */
-		bool playerMove(Board &board, Player player, Tile const &tile, TileUpdate* updates, int &num_updates) override;
+		bool playerMove(Board &board, Player player, Tile const &tile, TileUpdate *updates, int &num_updates) override;
 };
 
 #endif

@@ -21,7 +21,7 @@ class CommandReader
 
 	private:
 		State _state = State::WaitingForCoord0;
-		KeypadInput const *_keypad_input;
+		KeypadInput &_keypad_input;
 		Command _command;
 
 	public:
@@ -30,7 +30,7 @@ class CommandReader
 		 * @param keypad_input - The hardware interface for reading coordinates from a keypad.
 		 * @param player_can_move_callback - A callback that determines whether a given player is allowed to move.
 		 */
-		CommandReader(KeypadInput const *keypad_input);
+		CommandReader(KeypadInput &keypad_input);
 
 		/**
 		 * Resets the CommandReader by discarding the current user input.

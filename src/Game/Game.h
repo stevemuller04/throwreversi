@@ -38,7 +38,7 @@ class Game
 		 * The value passed to this function will be ignored.
 		 * @return - Returns true iff the move was legal, regardless of whether it had any effect.
 		 */
-		virtual bool playerMove(Board &board, Player player, Tile const &tile, TileUpdate* updates, int &num_updates) = 0;
+		virtual bool playerMove(Board &board, Player player, Tile const &tile, TileUpdate *updates, int &num_updates) = 0;
 };
 
 #endif

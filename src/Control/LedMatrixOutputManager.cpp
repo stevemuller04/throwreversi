@@ -1,12 +1,12 @@
 #include "LedMatrixOutputManager.h"
 
-LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, RgbwLedStripOutput *output) :
+LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, RgbwLedStripOutput &output) :
 	_output(output),
 	_width(width),
-	_height(height)
+	_height(height),
+	_base(new rgbw[width * height]),
+	_overlay(new rgbwa[width * height])
 {
-	_base = new rgbw[width * height];
-	_overlay = new rgbwa[width * height];
 	memset(_base, 0, width * height * sizeof(rgbw));
 	memset(_overlay, 0, width * height * sizeof(rgbwa));
 
@@ -30,8 +30,8 @@ void LedMatrixOutputManager::flush()
 			{
 				ledId_t id = getLedId(x, y);
 				rgbw color = _base[y * _height + x] + _overlay[y * _height + x];
-				_output->setColor(2 * id, color);
-				_output->setColor(2 * id + 1, color);
+				_output.setColor(2 * id, color);
+				_output.setColor(2 * id + 1, color);
 			}
 		}
 		_need_flush = false;

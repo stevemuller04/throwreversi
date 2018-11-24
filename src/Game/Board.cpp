@@ -1,10 +1,10 @@
 #include "Board.h"
 
-Board::Board(coord_t width, coord_t height)
+Board::Board(coord_t width, coord_t height) :
+	_width(width),
+	_height(height),
+	_owners(new Player[width * height])
 {
-	_width = width;
-	_height = height;
-	_owners = new Player[width * height];
 	memset(_owners, 0, width * height * sizeof(Player));
 }
 

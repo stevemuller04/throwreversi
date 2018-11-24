@@ -14,12 +14,12 @@ Engine::Engine(KeypadInput &input_keypad, RgbwLedStripOutput &output_tilecolors,
 	godmode_pin(godmode_pin),
 	input_keypad(input_keypad),
 	output_tilecolors(output_tilecolors),
-	command_reader(CommandReader(&input_keypad)),
-	output_manager(LedMatrixOutputManager(width, height, &output_tilecolors)),
-	board(Board(width, height))
+	command_reader(CommandReader(input_keypad)),
+	output_manager(LedMatrixOutputManager(width, height, output_tilecolors)),
+	board(Board(width, height)),
+	tileupdates_buffer(new TileUpdate[2 * width * height])
 {
 	game = &game_default;
-	tileupdates_buffer = new TileUpdate[2 * width * height];
 }
 
 Engine::~Engine()
@@ -88,7 +88,7 @@ void Engine::handleInput_GodMode()
 	rgbwa color_overlay(0, 0, 0, 0, ANIM_GODMODE_FLASH_ALPHA);
 	for (coord_t x = 0; x < width; ++x)
 		for (coord_t y = 0; y < height; ++y)
-			tasks.add(new RgbwaFlashTask(&output_manager, x, y, color_overlay, rgbwa::transparent, ANIM_GODMODE_FLASH_TIME, ANIM_GODMODE_FLASH_NUM), 0, true);
+			tasks.add(new RgbwaFlashTask(output_manager, x, y, color_overlay, rgbwa::transparent, ANIM_GODMODE_FLASH_TIME, ANIM_GODMODE_FLASH_NUM), 0, true);
 }
 
 void Engine::handleInput_Command(Player player, Tile tile)
@@ -107,7 +107,7 @@ void Engine::handleInput_Command(Player player, Tile tile)
 			output_manager.setBaseColor(tile.x, tile.y, color);
 
 			// Add animation
-			tasks.add(new RgbwaFlashTask(&output_manager, tile.x, tile.y, getPlayerColor(tileupdates_buffer[i].previous_owner), color, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
+			tasks.add(new RgbwaFlashTask(output_manager, tile.x, tile.y, getPlayerColor(tileupdates_buffer[i].previous_owner), color, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
 		}
 
 		// Tell the Game instance that a new round begins

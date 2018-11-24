@@ -19,19 +19,19 @@
 class Engine
 {
 	private:
-		coord_t width;
-		coord_t height;
+		coord_t const width;
+		coord_t const height;
 		bool is_godmode;
 		uint8_t godmode_pin;
-		KeypadInput input_keypad;
-		RgbwLedStripOutput output_tilecolors;
+		KeypadInput &input_keypad;
+		RgbwLedStripOutput &output_tilecolors;
 		CommandReader command_reader;
 		LedMatrixOutputManager output_manager;
 		Board board;
 		Game *game;
 		DefaultGame game_default;
 		GodmodeGame game_godmode;
-		TileUpdate *tileupdates_buffer; // used as buffer in handleInput_Command()
+		TileUpdate * const tileupdates_buffer; // used as buffer in handleInput_Command()
 		TaskManager tasks;
 
 		static rgbw const color_playerA;

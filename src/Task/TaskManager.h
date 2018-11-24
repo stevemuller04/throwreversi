@@ -22,7 +22,7 @@ class TaskManager
 		 * @param delay - An additional delay after which the task will be executed.
 		 * @param delete_when_done - If true, the given task will be deleted (and its memory freed) when the task has finished.
 		 */
-		void add(Task* task, mtime_t delay, bool delete_when_done);
+		void add(Task *task, mtime_t delay, bool delete_when_done);
 
 		/**
 		 * Removes all running and scheduled tasks from this task manager.

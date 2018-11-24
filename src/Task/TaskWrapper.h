@@ -24,7 +24,7 @@ struct TaskWrapper
 		TaskWrapper *next = nullptr;
 
 	public:
-		TaskWrapper(Task* task, mtime_t register_time, mtime_t delay, bool delete_when_done) :
+		TaskWrapper(Task *task, mtime_t register_time, mtime_t delay, bool delete_when_done) :
 			task(task),
 			register_time(register_time),
 			delay(delay == -1 ? -2 : delay), // make sure that the value 0xFFFFFFFF is not accidentally used
