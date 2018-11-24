@@ -113,5 +113,11 @@ Engine::handleInput_Command(Player player, Tile tile)
 
 Engine::stopAnimations()
 {
+	// Stop the animations
 	tasks.clear();
+
+	// Reset the overlays
+	for (coord_t x = 0; x < width; ++x)
+		for (coord_t y = 0; y < height; ++y)
+			output_manager.setOverlayColor(x, y, rgbwa::transparent);
 }
