@@ -35,8 +35,6 @@ void LedMatrixOutputManager::flush()
 			}
 		}
 		_need_flush = false;
-
-		_output->flush();
 	}
 }
 

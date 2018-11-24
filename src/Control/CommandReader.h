@@ -22,7 +22,6 @@ class CommandReader
 	private:
 		State _state = State::WaitingForCoord0;
 		KeypadInput const *_keypad_input;
-		bool (*_player_can_move_callback)(Player, Tile const&);
 		Command _command;
 
 	public:
@@ -31,9 +30,7 @@ class CommandReader
 		 * @param keypad_input - The hardware interface for reading coordinates from a keypad.
 		 * @param player_can_move_callback - A callback that determines whether a given player is allowed to move.
 		 */
-		CommandReader(
-			KeypadInput const *keypad_input,
-			bool (player_can_move_callback)(Player, Tile const&));
+		CommandReader(KeypadInput const *keypad_input);
 
 		/**
 		 * Resets the CommandReader by discarding the current user input.
@@ -43,6 +40,7 @@ class CommandReader
 		/**
 		 * Retrieves user input from the hardware interfaces.
 		 * This method must be continuously called, such as in the main loop() method.
+		 * Make sure to set a 'playerCanMove' callback via the setPlayerCanMoveCallback() method.
 		 * @return An input object describing the current user input.
 		 */
 		Command update();

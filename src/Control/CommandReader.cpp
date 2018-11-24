@@ -1,11 +1,8 @@
 #include "CommandReader.h"
 #include "Command.h"
 
-CommandReader::CommandReader(
-	KeypadInput const *keypad_input,
-	bool (*player_can_move_callback)(Player, Tile const&)) :
+CommandReader::CommandReader(KeypadInput const *keypad_input) :
 	_keypad_input(keypad_input),
-	_player_can_move_callback(player_can_move_callback),
 	_command(Command::Empty)
 {
 }
@@ -93,11 +90,8 @@ void CommandReader::update_WaitingForPlayer()
 
 void CommandReader::tryRequestMove(Player player)
 {
-	if (_player_can_move_callback(player, _command.selected_tile))
-	{
-		_state = State::WaitingForCoord0;
-		_command.selected_player = player;
-		_command.has_changed = true;
-		_command.is_complete = true;
-	}
+	_state = State::WaitingForCoord0;
+	_command.selected_player = player;
+	_command.has_changed = true;
+	_command.is_complete = true;
 }
