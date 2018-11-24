@@ -59,10 +59,18 @@ void TaskManager::loop()
 		{
 			// Delete wrapper object and move on to next task
 			// This will automatically delete the wrapped object, if required
+
+			// First update the references of the previous and next tasks in the collection
 			if (ptr->prev != nullptr)
 				ptr->prev->next = ptr->next;
 			if (ptr->next != nullptr)
 				ptr->next->prev = ptr->prev;
+			// Special case:
+			// If this was the first task in the collection, we also need to update the collection pointer
+			if (_tasks == ptr)
+				_tasks = ptr->next;
+
+			// Move `ptr` to the next task, and destroy the current task
 			TaskWrapper *newptr = ptr->next;
 			delete ptr;
 			ptr = newptr;
@@ -73,6 +81,5 @@ void TaskManager::loop()
 			// Proceed with next task
 			ptr = ptr->next;
 		}
-
 	}
 }
