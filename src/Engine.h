@@ -15,7 +15,6 @@
 #include "Game/TileUpdate.h"
 #include "Task/TaskManager.h"
 #include "types.h"
-#include "../config.h"
 
 class Engine
 {

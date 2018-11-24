@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "Task/RgbwaFlashTask.h"
 #include "types.h"
-#include "../config.h"
+#include "../config.visual.h"
 
 rgbw const Engine::color_playerA(COLOR_PLAYER_A);
 rgbw const Engine::color_playerB(COLOR_PLAYER_B);
