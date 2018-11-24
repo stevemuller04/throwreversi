@@ -40,7 +40,7 @@ struct TaskWrapper
 
 		bool start(mtime_t now)
 		{
-			if (delay != -1 && register_time - now >= delay)
+			if (delay != -1 && now - register_time >= delay)
 			{
 				delay = -1;
 				task->setup();
