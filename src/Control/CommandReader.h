@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SRC_COMMANDREADER_H
-#define INCLUDE_SRC_COMMANDREADER_H
+#ifndef INCLUDE_SRC_CONTROL_COMMANDREADER_H
+#define INCLUDE_SRC_CONTROL_COMMANDREADER_H
 
 #include "../Input/KeypadInput.h"
 #include "../Game/Player.h"
