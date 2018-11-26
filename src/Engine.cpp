@@ -7,14 +7,13 @@ rgbw const Engine::_color_playerA(COLOR_PLAYER_A);
 rgbw const Engine::_color_playerB(COLOR_PLAYER_B);
 rgbw const Engine::_color_playerX(COLOR_PLAYER_X);
 
-Engine::Engine(KeypadInput &input_keypad, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin) :
+Engine::Engine(InputReader &input_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin) :
 	_width(width),
 	_height(height),
 	_is_godmode(false),
 	_godmode_pin(godmode_pin),
-	_input_keypad(input_keypad),
 	_output_tilecolors(output_tilecolors),
-	_command_reader(CommandReader(input_keypad)),
+	_input_reader(input_reader),
 	_output_manager(LedMatrixOutputManager(width, height, output_tilecolors)),
 	_board(Board(width, height)),
 	_tileupdates_buffer(new TileUpdate[2 * width * height])
@@ -29,9 +28,6 @@ Engine::~Engine()
 
 void Engine::setup()
 {
-	pinMode(_godmode_pin, OUTPUT);
-	digitalWrite(_godmode_pin, LOW);
-
 	_game->beginRound();
 }
 
@@ -49,14 +45,14 @@ void Engine::loop()
 void Engine::handleInput()
 {
 	// Handle game mode toggling (normal or god mode)
-	if (_input_keypad.hasNewValue() && _input_keypad.getValue() == '#')
+	if (_input_reader.wantGodModeToggle())
 	{
 		handleInput_GodMode();
 	}
 	else
 	{
 		// Process user input
-		Command command = _command_reader.update();
+		Command command = _input_reader.getCommand();
 		if (command.has_changed)
 		{
 			// Stop animations after user input
@@ -75,13 +71,11 @@ void Engine::handleInput_GodMode()
 {
 	// Toggle flag
 	_is_godmode = !_is_godmode;
-	digitalWrite(_godmode_pin, _is_godmode ? HIGH : LOW);
 
 	// Set up game logic
 	_game = _is_godmode ? (Game*)&_game_godmode : (Game*)&_game_default;
 
 	// Reset state and stop animations
-	_command_reader.reset();
 	stopAnimations();
 
 	// Show god mode animation

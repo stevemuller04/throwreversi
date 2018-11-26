@@ -1,10 +1,9 @@
 #ifndef INCLUDE_SRC_ENGINE_H
 #define INCLUDE_SRC_ENGINE_H
 
-#include "Input/KeypadInput.h"
 #include "Output/RgbwLedStripOutput.h"
 #include "Control/Command.h"
-#include "Control/CommandReader.h"
+#include "Control/InputReader.h"
 #include "Control/LedMatrixOutputManager.h"
 #include "Game/Board.h"
 #include "Game/Game.h"
@@ -23,9 +22,8 @@ class Engine
 		coord_t const _height;
 		bool _is_godmode;
 		uint8_t _godmode_pin;
-		KeypadInput &_input_keypad;
 		RgbwLedStripOutput &_output_tilecolors;
-		CommandReader _command_reader;
+		InputReader _input_reader;
 		LedMatrixOutputManager _output_manager;
 		Board _board;
 		Game *_game;
@@ -39,7 +37,7 @@ class Engine
 		static rgbw const _color_playerX;
 
 	public:
-		Engine(KeypadInput &input_keypad, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
+		Engine(InputReader &input_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
 		~Engine();
 		void setup();
 		void loop();

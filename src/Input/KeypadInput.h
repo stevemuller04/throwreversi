@@ -12,9 +12,9 @@ class KeypadInput : public Input {
 	private:
 		char _value;
 		char _previous_value;
-		char const * const _keymap;
-		byte const _rowPins[4];
-		byte const _colPins[4];
+		char *_keymap;
+		byte _rowPins[4];
+		byte _colPins[4];
 		Keypad _keypad;
 
 	public:
