@@ -35,6 +35,9 @@ void setup()
 	WiFi.softAP("ThrowReversi");
 
 	// LED to show "done" status
+	status_led.setColor(rgbw::black);
+	status_led.flush();
+	delay(100);
 	status_led.setColor(rgbw(COLOR_STATUS_DONE));
 	status_led.flush();
 }

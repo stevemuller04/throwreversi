@@ -11,8 +11,8 @@
 class ControlServer
 {
 	private:
-		CommandReader _command_reader;
-		Board const _board;
+		CommandReader &_command_reader;
+		Board const &_board;
 		ESP8266WebServer _server;
 
 	public:

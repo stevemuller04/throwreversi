@@ -23,7 +23,7 @@ class Engine
 		bool _is_godmode;
 		uint8_t _godmode_pin;
 		RgbwLedStripOutput &_output_tilecolors;
-		CommandReader _command_reader;
+		CommandReader &_command_reader;
 		LedMatrixOutputManager _output_manager;
 		Board _board;
 		Game *_game;
