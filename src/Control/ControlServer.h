@@ -1,7 +1,7 @@
 #ifndef INCLUDE_SRC_CONTROLSERVER_H
 #define INCLUDE_SRC_CONTROLSERVER_H
 
-#include "InputReader.h"
+#include "CommandReader.h"
 #include <ESP8266WebServer.h>
 
 /**
@@ -10,14 +10,14 @@
 class ControlServer
 {
 	private:
-		InputReader _input_reader;
+		CommandReader _command_reader;
 		ESP8266WebServer _server;
 
 	public:
 		/**
 		 * Initializes a new ControlServer instance.
 		 */
-		ControlServer(InputReader &input_reader);
+		ControlServer(CommandReader &command_reader);
 
 		/**
 		 * Sets up the web server.

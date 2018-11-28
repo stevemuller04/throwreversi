@@ -1,8 +1,8 @@
 #include "ControlServer.h"
 #include "Command.h"
 
-ControlServer::ControlServer(InputReader &input_reader) :
-	_input_reader(input_reader),
+ControlServer::ControlServer(CommandReader &command_reader) :
+	_command_reader(command_reader),
 	_server(80)
 {
 }

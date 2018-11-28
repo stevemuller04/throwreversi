@@ -3,7 +3,7 @@
 
 #include "Output/RgbwLedStripOutput.h"
 #include "Control/Command.h"
-#include "Control/InputReader.h"
+#include "Control/CommandReader.h"
 #include "Control/LedMatrixOutputManager.h"
 #include "Game/Board.h"
 #include "Game/Game.h"
@@ -23,7 +23,7 @@ class Engine
 		bool _is_godmode;
 		uint8_t _godmode_pin;
 		RgbwLedStripOutput &_output_tilecolors;
-		InputReader _input_reader;
+		CommandReader _command_reader;
 		LedMatrixOutputManager _output_manager;
 		Board _board;
 		Game *_game;
@@ -37,7 +37,7 @@ class Engine
 		static rgbw const _color_playerX;
 
 	public:
-		Engine(InputReader &input_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
+		Engine(CommandReader &command_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
 		~Engine();
 		void setup();
 		void loop();
