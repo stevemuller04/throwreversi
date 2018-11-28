@@ -89,13 +89,13 @@ void ControlServer::handleBoard()
 		msg += "false";
 	msg += ",\"board\":[";
 	Tile tile;
-	for (tile.x = 0; tile.x < _board.getWidth(); ++tile.x)
+	for (tile.y = 0; tile.y < _board.getHeight(); ++tile.y)
 	{
-		if (tile.x > 0) msg += ",";
+		if (tile.y > 0) msg += ",";
 		msg += "[";
-		for (tile.y = 0; tile.y < _board.getHeight(); ++tile.y)
+		for (tile.x = 0; tile.x < _board.getWidth(); ++tile.x)
 		{
-			if (tile.y > 0) msg += ",";
+			if (tile.x > 0) msg += ",";
 			switch (_board.getTileOwner(tile))
 			{
 				case Player::PlayerA: msg += "1"; break;
