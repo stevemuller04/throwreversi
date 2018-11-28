@@ -7,9 +7,9 @@
 #include <WiFiClient.h>
 
 CommandReader command_reader;
-ControlServer control_server(command_reader);
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT * 2, PIN_OUT_BOARD, FLAGS_NEOPIXEL);
 Engine engine(command_reader, output_tilecolors, BOARD_WIDTH, BOARD_HEIGHT, LED_BUILTIN); 
+ControlServer control_server(command_reader, engine.getBoard());
 
 void setup()
 {

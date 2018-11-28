@@ -42,6 +42,11 @@ void Engine::loop()
 	_output_manager.flush();
 }
 
+Board &Engine::getBoard()
+{
+	return _board;
+}
+
 void Engine::handleInput()
 {
 	// Handle game mode toggling (normal or god mode)

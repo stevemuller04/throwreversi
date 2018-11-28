@@ -41,6 +41,7 @@ class Engine
 		~Engine();
 		void setup();
 		void loop();
+		Board &getBoard();
 
 	private:
 		void handleInput();

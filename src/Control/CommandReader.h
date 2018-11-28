@@ -11,8 +11,9 @@ class CommandReader
 	private:
 		Command _command;
 		Command _next_command;
-		bool _want_god_mode;
-		bool _next_want_god_mode;
+		bool _want_toggle_god_mode;
+		bool _next_want_toggle_god_mode;
+		bool _god_mode_enabled;
 
 	public:
 		/**
@@ -34,6 +35,11 @@ class CommandReader
 		 * Toggles the god mode.
 		 */
 		void toggleGodMode();
+
+		/**
+		 * Indicates whether the god mode is currently enabled.
+		 */
+		bool isGodModeEnabled();
 
 		/**
 		 * Sets the next command.
