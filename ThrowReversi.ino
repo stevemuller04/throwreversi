@@ -11,12 +11,16 @@ RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT * 2, PIN_OUT_BOA
 Engine engine(command_reader, output_tilecolors, BOARD_WIDTH, BOARD_HEIGHT, LED_BUILTIN); 
 ControlServer control_server(command_reader, engine.getBoard());
 
+const char HTML[] =
+#include "HTML.h"
+;
+
 void setup()
 {
 	delay(1000);
 	engine.setup();
 	output_tilecolors.setup();
-	control_server.setup();
+	control_server.setup(HTML);
 
 	WiFi.softAP("ThrowReversi");
 }

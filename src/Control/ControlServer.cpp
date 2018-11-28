@@ -4,6 +4,8 @@
 #include "../Game/Player.h"
 #include "../types.h"
 
+static const char ControlServer_contenttype[] PROGMEM = "text/html";
+
 ControlServer::ControlServer(CommandReader &command_reader, Board const &board) :
 	_command_reader(command_reader),
 	_board(board),
@@ -11,9 +13,9 @@ ControlServer::ControlServer(CommandReader &command_reader, Board const &board) 
 {
 }
 
-void ControlServer::setup()
+void ControlServer::setup(PGM_P html)
 {
-	_server.on("/", HTTP_GET, [this] () { return this->handleRoot(); });
+	_server.on("/", HTTP_GET, [this, html] () { return this->handleRoot(html); });
 	_server.on("/godmode", HTTP_POST, [this] () { return this->handleGodMode(); });
 	_server.on("/move", HTTP_POST, [this] () { return this->handleMove(); });
 	_server.on("/board", HTTP_GET, [this] () { return this->handleBoard(); });
@@ -25,9 +27,9 @@ void ControlServer::loop()
 	_server.handleClient();
 }
 
-void ControlServer::handleRoot()
+void ControlServer::handleRoot(PGM_P html)
 {
-	_server.send(200, "text/html", "<html><body><h1>ThrowReversi</h1></body></html>");
+	_server.send_P(200, ControlServer_contenttype, html);
 }
 
 void ControlServer::handleGodMode()

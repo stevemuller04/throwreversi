@@ -23,8 +23,9 @@ class ControlServer
 
 		/**
 		 * Sets up the web server.
+		 * @param html A PROGMEM pointer to the HTML source code of the main application.
 		 */
-		void setup();
+		void setup(PGM_P html);
 
 		/**
 		 * Main loop that handles web clients and their requests.
@@ -32,7 +33,7 @@ class ControlServer
 		void loop();
 
 	private:
-		void handleRoot();
+		void handleRoot(PGM_P html);
 		void handleGodMode();
 		void handleMove();
 		void handleBoard();
