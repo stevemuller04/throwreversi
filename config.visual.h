@@ -4,6 +4,7 @@
 
 #define COLOR_STATUS_LOAD              0x22, 0x22, 0x22
 #define COLOR_STATUS_DONE              0x00, 0x22, 0x00
+#define COLOR_STATUS_ERROR             0x22, 0x00, 0x00
 
 #define ANIM_GODMODE_FLASH_TIME        100
 #define ANIM_GODMODE_FLASH_NUM         3
