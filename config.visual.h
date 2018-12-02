@@ -1,5 +1,5 @@
-#define COLOR_PLAYER_A                 255, 0, 0
-#define COLOR_PLAYER_B                 0, 0, 255
+#define COLOR_PLAYER_A                 0, 0, 255
+#define COLOR_PLAYER_B                 255, 0, 0
 #define COLOR_PLAYER_X                 0, 0, 0, 255
 
 #define COLOR_STATUS_LOAD              0x22, 0x22, 0x22
