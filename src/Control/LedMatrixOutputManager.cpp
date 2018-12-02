@@ -40,18 +40,52 @@ void LedMatrixOutputManager::flush()
 
 ledId_t LedMatrixOutputManager::getLedId(coord_t x, coord_t y) const
 {
-	switch (10*x+y)
+	// The board is split into 4 quadrants.
+	// Order of quadrants: top-left, top-right, bottom-right, bottom-left
+	// Board origin (x=0, y=0): top-most left-most tile
+	// The LEDs are numbered as follows:
+	/*
+	  ┌──┬──┬──┐   ┌──┬──┬──┐
+	  │ 6│ 7│ 8│ → │ 9│10│11│
+	  ├──┼──┼──┤   ├──┼──┼──┤
+	  │ 5│ 4│ 3│   │14│13│12│
+	  ├──┼──┼──┤   ├──┼──┼──┤
+	→ │ 0│ 1│ 2│   │15│16│17│
+	  └──┴──┴──┘   └──┴──┴──┘
+	                       ↓
+	  ┌──┬──┬──┐   ┌──┬──┬──┐
+	  │35│34│33│   │20│19│18│
+	  ├──┼──┼──┤   ├──┼──┼──┤
+	  │30│31│32│   │21│22│23│
+	  ├──┼──┼──┤   ├──┼──┼──┤
+	  │29│28│27│ ← │26│25│24│
+	  └──┴──┴──┘   └──┴──┴──┘
+	*/
+
+	ledId_t quadrant_led_offset =
+		x < _width / 2 /*left*/ ?
+			(y < _height / 2 /*top*/ ? 0 : 27) :
+			(y < _height / 2 /*top*/ ? 9 : 18);
+	bool flipped_quadrant_x_axis = y >= _height / 2;
+	bool flipped_quadrant_y_axis = x >= _width / 2;
+	coord_t x_relative_to_quadrant = x % (_width / 2);
+	coord_t y_relative_to_quadrant = y % (_width / 2);
+
+	coord_t x_mapped_to_topleft_quadrant = flipped_quadrant_x_axis ? (_width / 2 - x_relative_to_quadrant) : x_relative_to_quadrant;
+	coord_t y_mapped_to_topleft_quadrant = flipped_quadrant_y_axis ? (_height / 2 - y_relative_to_quadrant) : y_relative_to_quadrant;
+
+	switch (10 * y + x)
 	{
-		case 00: return 8;
-		case 10: return 7;
-		case 20: return 6;
-		case 21: return 5;
-		case 11: return 4;
-		case 01: return 3;
-		case 02: return 2;
-		case 12: return 1;
-		case 22: return 0;
-		default: return 9;
+		case 00: return 6 + quadrant_led_offset;
+		case 01: return 7 + quadrant_led_offset;
+		case 02: return 8 + quadrant_led_offset;
+		case 10: return 5 + quadrant_led_offset;
+		case 11: return 4 + quadrant_led_offset;
+		case 12: return 3 + quadrant_led_offset;
+		case 20: return 0 + quadrant_led_offset;
+		case 21: return 1 + quadrant_led_offset;
+		case 22: return 2 + quadrant_led_offset;
+		default: return _width * _height;
 	}
 }
 
