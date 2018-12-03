@@ -7,11 +7,10 @@ rgbw const Engine::_color_playerA(COLOR_PLAYER_A);
 rgbw const Engine::_color_playerB(COLOR_PLAYER_B);
 rgbw const Engine::_color_playerX(COLOR_PLAYER_X);
 
-Engine::Engine(CommandReader &command_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin) :
+Engine::Engine(CommandReader &command_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height) :
 	_width(width),
 	_height(height),
 	_is_godmode(false),
-	_godmode_pin(godmode_pin),
 	_output_tilecolors(output_tilecolors),
 	_command_reader(command_reader),
 	_output_manager(LedMatrixOutputManager(width, height, output_tilecolors)),

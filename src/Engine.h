@@ -37,17 +37,64 @@ class Engine
 		static rgbw const _color_playerX;
 
 	public:
-		Engine(CommandReader &command_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height, uint8_t godmode_pin);
+		/**
+		 * Initializes a new Engine.
+		 * @param command_reader A command reader which retrieves user input.
+		 * @param output_tilecolors An LED strip that visualises the game board.
+		 * @param width The board width.
+		 * @param height The board height.
+		 */
+		Engine(CommandReader &command_reader, RgbwLedStripOutput &output_tilecolors, coord_t width, coord_t height);
+
+		/**
+		 * Destroys the engine and frees all resources.
+		 */
 		~Engine();
+
+		/**
+		 * Sets up the engine and creates the necessary resources.
+		 * To be called in the main setup() function.
+		 */
 		void setup();
+
+		/**
+		 * Executes the main logic of the engine.
+		 * To be called in the main loop() function.
+		 */
 		void loop();
+
+		/**
+		 * Gets the current state of the game board.
+		 */
 		Board &getBoard();
 
 	private:
+		/**
+		 * Process user input.
+		 */
 		void handleInput();
+
+		/**
+		 * Process the 'godmode toggling' part of the user input.
+		 */
 		void handleInput_GodMode();
+
+		/**
+		 * Process the 'move command' part of the user input.
+		 * @param player The player that requests the move.
+		 * @param tile The tile that is requested by the player for the move.
+		 */
 		void handleInput_Command(Player player, Tile tile);
+
+		/**
+		 * Stops all animations.
+		 */
 		void stopAnimations();
+
+		/**
+		 * Gets the color associated to the given player.
+		 * @param player The player.
+		 */
 		rgbw getPlayerColor(Player player);
 };
 

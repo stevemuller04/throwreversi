@@ -33,9 +33,29 @@ class ControlServer
 		void loop();
 
 	private:
+		/**
+		 * Handles requests to the '/' URI.
+		 * Provides the web interface to wbe clients.
+		 * @param html The HTML source code that shall be returned to clients.
+		 */
 		void handleRoot(PGM_P html);
+
+		/**
+		 * Handles requests to the '/godmode' URI.
+		 * Toggles the god mode.
+		 */
 		void handleGodMode();
+
+		/**
+		 * Handles requests to the '/move' URI.
+		 * Plays a move.
+		 */
 		void handleMove();
+
+		/**
+		 * Handles requests to the '/board' URI.
+		 * Provides a JSON representation of the game state to wbe clients.
+		 */
 		void handleBoard();
 };
 

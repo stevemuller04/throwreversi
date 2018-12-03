@@ -30,6 +30,10 @@ struct Command
 	 */
 	bool is_complete;
 
+	/**
+	 * An empty command that has no selected tile nor player.
+	 * The 'has_changed' property is set to true.
+	 */
 	static Command const Empty;
 };
 

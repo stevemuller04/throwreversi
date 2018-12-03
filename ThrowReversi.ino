@@ -13,7 +13,7 @@
 RgbwLedOutput status_led(STATUSLED_PIN, STATUSLED_FLAGS);
 CommandReader command_reader;
 RgbwLedStripOutput output_tilecolors(BOARD_WIDTH * BOARD_HEIGHT * 2, BOARDLEDS_PIN, BOARDLEDS_FLAGS);
-Engine engine(command_reader, output_tilecolors, BOARD_WIDTH, BOARD_HEIGHT, LED_BUILTIN); 
+Engine engine(command_reader, output_tilecolors, BOARD_WIDTH, BOARD_HEIGHT); 
 ControlServer control_server(command_reader, engine.getBoard());
 
 IPAddress local_ip(NET_LOCAL_IP);
