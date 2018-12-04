@@ -15,6 +15,9 @@
 #include "Task/TaskManager.h"
 #include "types.h"
 
+#define ENGINE_LAYER_COMMAND 1
+#define ENGINE_LAYER_GODMODE 2
+
 class Engine
 {
 	private:
@@ -30,7 +33,8 @@ class Engine
 		DefaultGame _game_default;
 		GodmodeGame _game_godmode;
 		TileUpdate * const _tileupdates_buffer; // used as buffer in handleInput_Command()
-		TaskManager _tasks;
+		TaskManager _animations_command; // tasks for animations related to commands
+		TaskManager _animations_godmode; // tasks for animations related to godmode changes
 
 		static rgbw const _color_playerA;
 		static rgbw const _color_playerB;
@@ -87,9 +91,14 @@ class Engine
 		void handleInput_Command(Player player, Tile tile);
 
 		/**
-		 * Stops all animations.
+		 * Stops all animations related to commands.
 		 */
-		void stopAnimations();
+		void stopAnimations_Command();
+
+		/**
+		 * Stops all animations related to godmode changes.
+		 */
+		void stopAnimations_GodMode();
 
 		/**
 		 * Gets the color associated to the given player.

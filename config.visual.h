@@ -6,8 +6,8 @@
 #define COLOR_STATUS_DONE              0x00, 0x22, 0x00
 #define COLOR_STATUS_ERROR             0x22, 0x00, 0x00
 
-#define ANIM_GODMODE_FLASH_TIME        100
-#define ANIM_GODMODE_FLASH_NUM         3
+#define ANIM_GODMODE_FLASH_TIME        800
+#define ANIM_GODMODE_FLASH_NUM         FLASH_UNDEFINITELY
 #define ANIM_GODMODE_FLASH_ALPHA       0.7
 
 #define ANIM_CONQUER_FLASH_TIME        250

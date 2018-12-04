@@ -35,7 +35,8 @@ void Engine::loop()
 	handleInput();
 
 	// Run animations
-	_tasks.loop();
+	_animations_command.loop();
+	_animations_godmode.loop();
 
 	// Flush outputs
 	_output_manager.flush();
@@ -60,7 +61,7 @@ void Engine::handleInput()
 		if (command.has_changed)
 		{
 			// Stop animations after user input
-			stopAnimations();
+			stopAnimations_Command();
 
 			// If all parts of the user input have been specified, and the move is legal, handle the request
 			if (command.is_complete && _game->playerCanMove(_board, command.selected_player, command.selected_tile))
@@ -80,13 +81,13 @@ void Engine::handleInput_GodMode()
 	_game = _is_godmode ? (Game*)&_game_godmode : (Game*)&_game_default;
 
 	// Reset state and stop animations
-	stopAnimations();
+	stopAnimations_GodMode();
 
 	// Show god mode animation
 	rgbwa color_overlay(0, 0, 0, 0, ANIM_GODMODE_FLASH_ALPHA);
 	for (coord_t x = 0; x < _width; ++x)
 		for (coord_t y = 0; y < _height; ++y)
-			_tasks.add(new RgbwaFlashTask(_output_manager, x, y, color_overlay, rgbwa::transparent, ANIM_GODMODE_FLASH_TIME, ANIM_GODMODE_FLASH_NUM), 0, true);
+			_animations_godmode.add(new RgbwaFlashTask(_output_manager, x, y, ENGINE_LAYER_GODMODE, color_overlay, rgbwa::transparent, ANIM_GODMODE_FLASH_TIME, ANIM_GODMODE_FLASH_NUM), 0, true);
 }
 
 void Engine::handleInput_Command(Player player, Tile tile)
@@ -102,10 +103,10 @@ void Engine::handleInput_Command(Player player, Tile tile)
 			Tile const tile = _tileupdates_buffer[i].tile;
 			Player const owner = _tileupdates_buffer[i].owner;
 			rgbw const color = getPlayerColor(owner);
-			_output_manager.setBaseColor(tile.x, tile.y, color);
+			_output_manager.setColor(tile.x, tile.y, 0, color);
 
 			// Add animation
-			_tasks.add(new RgbwaFlashTask(_output_manager, tile.x, tile.y, getPlayerColor(_tileupdates_buffer[i].previous_owner), color, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
+			_animations_command.add(new RgbwaFlashTask(_output_manager, tile.x, tile.y, ENGINE_LAYER_COMMAND, getPlayerColor(_tileupdates_buffer[i].previous_owner), color, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
 		}
 
 		// Tell the Game instance that a new round begins
@@ -113,15 +114,26 @@ void Engine::handleInput_Command(Player player, Tile tile)
 	}
 }
 
-void Engine::stopAnimations()
+void Engine::stopAnimations_Command()
 {
 	// Stop the animations
-	_tasks.clear();
+	_animations_command.clear();
 
-	// Reset the overlays
+	// Reset the color overlays
 	for (coord_t x = 0; x < _width; ++x)
 		for (coord_t y = 0; y < _height; ++y)
-			_output_manager.setOverlayColor(x, y, rgbwa::transparent);
+			_output_manager.setColor(x, y, ENGINE_LAYER_COMMAND, rgbwa::transparent);
+}
+
+void Engine::stopAnimations_GodMode()
+{
+	// Stop the animations
+	_animations_godmode.clear();
+
+	// Reset the color overlays
+	for (coord_t x = 0; x < _width; ++x)
+		for (coord_t y = 0; y < _height; ++y)
+			_output_manager.setColor(x, y, ENGINE_LAYER_GODMODE, rgbwa::transparent);
 }
 
 rgbw Engine::getPlayerColor(Player player)

@@ -3,10 +3,11 @@
 #include "../rgbwa.h"
 #include <Arduino.h>
 
-RgbwaFlashTask::RgbwaFlashTask(LedMatrixOutputManager &output, coord_t x, coord_t y, rgbwa initial_color, rgbwa final_color, mtime_t interval, uint8_t repetitions) :
+RgbwaFlashTask::RgbwaFlashTask(LedMatrixOutputManager &output, coord_t x, coord_t y, uint8_t layer, rgbwa initial_color, rgbwa final_color, mtime_t interval, uint8_t repetitions) :
 	_output(output),
 	_x(x),
 	_y(y),
+	_layer(layer),
 	_initial_color(initial_color),
 	_final_color(final_color),
 	_interval(interval),
@@ -35,7 +36,7 @@ bool RgbwaFlashTask::loop()
 	// Check if the task is over
 	if (_repetitions == 0)
 	{
-		_output.setOverlayColor(_x, _y, _final_color); // in case we missed a cycle
+		_output.setColor(_x, _y, _layer, _final_color); // in case we missed a cycle
 		return false;
 	}
 
@@ -44,7 +45,7 @@ bool RgbwaFlashTask::loop()
 	uint8_t blink_state = now - _start_time < _interval ? 1 : 0;
 	if (blink_state != _last_blink_state) {
 		_last_blink_state = blink_state;
-		_output.setOverlayColor(_x, _y, blink_state ? _final_color : _initial_color);
+		_output.setColor(_x, _y, _layer, blink_state ? _final_color : _initial_color);
 	}
 
 	return true;

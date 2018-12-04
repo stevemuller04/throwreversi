@@ -7,6 +7,8 @@
 #include "../rgbwa.h"
 #include "../types.h"
 
+#define LEDMATRIXOUTPUTMANAGER_NUM_LAYERS 3
+
 /**
  * Manages the colors of an RGBW led strip arranged as a matrix.
  */
@@ -15,8 +17,7 @@ class LedMatrixOutputManager
 	private:
 		coord_t const _width;
 		coord_t const _height;
-		rgbw * const _base;
-		rgbwa * const _overlay;
+		rgbwa * const _colors;
 		bool _need_flush = true;
 		RgbwLedStripOutput &_output;
 
@@ -45,27 +46,19 @@ class LedMatrixOutputManager
 		~LedMatrixOutputManager();
 
 		/**
-		 * Makes all changes effective that were made by setBaseColor() and setOverlayColor().
+		 * Makes all changes effective that were made by setColor().
 		 */
 		void flush();
 
 		/**
-		 * Sets the base color for a tile.
-		 * If no overlays are specified, this color will be the color displayed by the LED.
+		 * Sets a color for a tile at a given layer.
+		 * If colors are specified for multiple layers of a tile, the actual color of the LED will be the result of the blending of the base color with the overlay colors. 
 		 * @param x The x coordinate of the tile.
 		 * @param y The y coordinate of the tile.
-		 * @param color The color.
+		 * @param layer The zero-based index of the layer. Layer 0 denotes the base color; higher layers will be applied on top of lower layers.
+		 * @param color The color. Note that the alpha-component of the color will be ignored for layer 0.
 		 */
-		void setBaseColor(coord_t x, coord_t y, rgbw color);
-
-		/**
-		 * Sets the overlay color for a tile.
-		 * The actual color of the LED will be the result of the blending of the base color with the overlay color.
-		 * @param x The x coordinate of the tile.
-		 * @param y The y coordinate of the tile.
-		 * @param color The overlay color.
-		 */
-		void setOverlayColor(coord_t x, coord_t y, rgbwa color);
+		void setColor(coord_t x, coord_t y, uint8_t layer, rgbwa color);
 };
 
 #endif

@@ -4,20 +4,18 @@ LedMatrixOutputManager::LedMatrixOutputManager(coord_t width, coord_t height, Rg
 	_output(output),
 	_width(width),
 	_height(height),
-	_base(new rgbw[width * height]),
-	_overlay(new rgbwa[width * height])
+	_colors(new rgbwa[width * height * LEDMATRIXOUTPUTMANAGER_NUM_LAYERS])
 {
-	memset(_base, 0, width * height * sizeof(rgbw));
-	memset(_overlay, 0, width * height * sizeof(rgbwa));
+	memset(_colors, 0, width * height * LEDMATRIXOUTPUTMANAGER_NUM_LAYERS * sizeof(rgbwa));
 
+	// Default color of layer 0 is white
 	for (int i = 0; i < width * height; ++i)
-		_base[i].w = 0xFF;
+		_colors[i].color.w = 0xFF;
 }
 
 LedMatrixOutputManager::~LedMatrixOutputManager()
 {
-	delete[] _overlay;
-	delete[] _base;
+	delete[] _colors;
 }
 
 void LedMatrixOutputManager::flush()
@@ -29,7 +27,9 @@ void LedMatrixOutputManager::flush()
 			for (coord_t y = 0; y < _height; y++)
 			{
 				ledId_t id = getLedId(x, y);
-				rgbw color = _base[y * _height + x] + _overlay[y * _height + x];
+				rgbw color = _colors[y * _height + x].color;
+				for (uint8_t layer = 1; layer < LEDMATRIXOUTPUTMANAGER_NUM_LAYERS; ++layer)
+					color = color + _colors[y * _height + x + layer * _width * _height];
 				_output.setColor(2 * id, color);
 				_output.setColor(2 * id + 1, color);
 			}
@@ -89,25 +89,14 @@ ledId_t LedMatrixOutputManager::getLedId(coord_t x, coord_t y) const
 	}
 }
 
-void LedMatrixOutputManager::setBaseColor(coord_t x, coord_t y, rgbw color)
+void LedMatrixOutputManager::setColor(coord_t x, coord_t y, uint8_t layer, rgbwa color)
 {
-	if (0 <= x && x < _width && 0 <= y && y < _height)
+	if (0 <= x && x < _width && 0 <= y && y < _height && layer < LEDMATRIXOUTPUTMANAGER_NUM_LAYERS)
 	{
-		if (_base[y * _height + x] != color)
+		int offset = layer * _width * _height;
+		if (_colors[y * _height + x + offset] != color)
 		{
-			_base[y * _height + x] = color;
-			_need_flush = true;
-		}
-	}
-}
-
-void LedMatrixOutputManager::setOverlayColor(coord_t x, coord_t y, rgbwa color)
-{
-	if (0 <= x && x < _width && 0 <= y && y < _height)
-	{
-		if (_overlay[y * _height + x] != color)
-		{
-			_overlay[y * _height + x] = color;
+			_colors[y * _height + x + offset] = color;
 			_need_flush = true;
 		}
 	}
