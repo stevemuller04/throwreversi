@@ -11,6 +11,9 @@ body.container {
 	text-align: center;
 	background-color: #eee;
 }
+#board button {
+	padding: 0;
+}
 .boardrow {
 	display: flex;
 }
