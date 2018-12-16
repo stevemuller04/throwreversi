@@ -19,6 +19,20 @@ Required Arduino libraries (unpack into `./libraries` folder):
 * __Keypad__ by Mark Stanley, Alexander Brevig: http://playground.arduino.cc/Code/Keypad
 * __Adafruit NeoPixel__ by Adafruit: https://github.com/adafruit/Adafruit_NeoPixel
 
+## How to use
+
+1. Connect the ground and data pins of LED strip to the `GND` and `D6` pins of the Kniwwelino, respectively.
+2. Power the LED strip and the Kniwwelino. The status LED of the Kniwwelino will turn white, then green (indicating that it is ready).
+3. Connect your smart phone to the "ThrowReversi" WiFi network. It is (intentionally) an open/unencrypted network, so no passphrase is necessary.
+4. On your smart phone, open a web browser and navigate to http://throwreversi/.
+
+The web interface will show up on your phone.
+First select a player (blue or red), then tap on one of the 6x6 tiles to mark it as conquered by the selected player.
+The game logic will be applied automatically.
+
+There is also the "Edit mode", which will disable all game logic, and let you change the owner of every tile.
+It is meant to be used if a tile has been mistakenly conquered by a wrong player.
+
 ## License
 
 The software contained in this repository is licensed under an MIT license.
