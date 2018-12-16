@@ -53,6 +53,12 @@ class ControlServer
 		void handleMove();
 
 		/**
+		 * Handles requests to the '/reset' URI.
+		 * Resets the entire game.
+		 */
+		void handleReset();
+
+		/**
 		 * Handles requests to the '/board' URI.
 		 * Provides a JSON representation of the game state to wbe clients.
 		 */

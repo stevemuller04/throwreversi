@@ -15,6 +15,7 @@
 #include "Task/TaskManager.h"
 #include "types.h"
 
+#define ENGINE_LAYER_BASE 0
 #define ENGINE_LAYER_COMMAND 1
 #define ENGINE_LAYER_GODMODE 2
 
@@ -82,6 +83,11 @@ class Engine
 		 * Process the 'godmode toggling' part of the user input.
 		 */
 		void handleInput_GodMode();
+
+		/**
+		 * Process the 'game reset' part of the user input.
+		 */
+		void handleInput_Reset();
 
 		/**
 		 * Process the 'move command' part of the user input.

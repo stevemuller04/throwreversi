@@ -14,6 +14,8 @@ class CommandReader
 		bool _want_toggle_god_mode;
 		bool _next_want_toggle_god_mode;
 		bool _god_mode_enabled;
+		bool _want_reset;
+		bool _next_want_reset;
 
 	public:
 		/**
@@ -45,6 +47,16 @@ class CommandReader
 		 * Sets the next command.
 		 */
 		void setCommand(Command command);
+
+		/**
+		 * Triggers a reset of the game.
+		 */
+		void triggerReset();
+
+		/**
+		 * Indicates whether the a reset of the game has been requested.
+		 */
+		bool wantReset();
 
 		/**
 		 * Applies the requested user commands.

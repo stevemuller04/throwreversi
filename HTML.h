@@ -119,6 +119,10 @@ Game.prototype.move = function(x, y) {
 	var self = this;
 	ajax("/move", "POST", { x: x, y: y, p: this.player }, function() { self.refresh(); });
 };
+Game.prototype.reset = function() {
+	var self = this;
+	ajax("/reset", "POST", {}, function() { self.refresh(); });
+};
 Game.prototype.toggleGodMode = function() {
 	var self = this;
 	ajax("/godmode", "POST", {}, function() { self.refresh(); });
@@ -138,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function() { G.refresh(); });
 			<button type="button" id="btnP0" onclick="G.setPlayer(0)" class="white x">none</button>
 			<span style="margin-left:1rem"></span>
 			<button type="button" id="btnGM" onclick="G.toggleGodMode()">Edit mode</button>
+			<button type="button" onclick="G.reset()">Reset</button>
 		</p>
 		<p>Choose a tile</p>
 		<div id="board"></div>

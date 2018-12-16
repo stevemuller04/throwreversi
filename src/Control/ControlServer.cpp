@@ -18,6 +18,7 @@ void ControlServer::setup(PGM_P html)
 	_server.on("/", HTTP_GET, [this, html] () { return this->handleRoot(html); });
 	_server.on("/godmode", HTTP_POST, [this] () { return this->handleGodMode(); });
 	_server.on("/move", HTTP_POST, [this] () { return this->handleMove(); });
+	_server.on("/reset", HTTP_POST, [this] () { return this->handleReset(); });
 	_server.on("/board", HTTP_GET, [this] () { return this->handleBoard(); });
 	_server.begin();
 }
@@ -77,6 +78,12 @@ void ControlServer::handleMove()
 	_command_reader.setCommand(command);
 
 	// Send OK
+	_server.send(200, "text/json", "{}");
+}
+
+void ControlServer::handleReset()
+{
+	_command_reader.triggerReset();
 	_server.send(200, "text/json", "{}");
 }
 

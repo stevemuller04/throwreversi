@@ -54,6 +54,11 @@ void Engine::handleInput()
 	{
 		handleInput_GodMode();
 	}
+	// Handle game reset
+	if (_command_reader.wantReset())
+	{
+		handleInput_Reset();
+	}
 	else
 	{
 		// Process user input
@@ -93,6 +98,30 @@ void Engine::handleInput_GodMode()
 	}
 }
 
+void Engine::handleInput_Reset()
+{
+	// We use the same animation queue as for regular moves
+	// Stop all animations
+	stopAnimations_Command();
+
+	Tile tile;
+	rgbwa const playerNoneColor = getPlayerColor(Player::None);
+	rgbwa const blackColor(rgbw::black);
+	for (tile.x = 0; tile.x < _width; ++tile.x)
+	{
+		for (tile.y = 0; tile.y < _height; ++tile.y)
+		{
+			_board.setTileOwner(tile, Player::None);
+			_output_manager.setColor(tile.x, tile.y, ENGINE_LAYER_BASE, playerNoneColor);
+			_output_manager.setColor(tile.x, tile.y, ENGINE_LAYER_COMMAND, rgbwa::transparent);
+			_animations_command.add(new RgbwaFlashTask(_output_manager, tile.x, tile.y, ENGINE_LAYER_COMMAND, blackColor, rgbwa::transparent, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
+		}
+	}
+
+	// Tell the Game instance that a new round begins
+	_game->beginRound();
+}
+
 void Engine::handleInput_Command(Player player, Tile tile)
 {
 	// Make move
@@ -106,7 +135,7 @@ void Engine::handleInput_Command(Player player, Tile tile)
 			Tile const tile = _tileupdates_buffer[i].tile;
 			Player const owner = _tileupdates_buffer[i].owner;
 			rgbw const color = getPlayerColor(owner);
-			_output_manager.setColor(tile.x, tile.y, 0, color);
+			_output_manager.setColor(tile.x, tile.y, ENGINE_LAYER_BASE, color);
 
 			// Add animation
 			_animations_command.add(new RgbwaFlashTask(_output_manager, tile.x, tile.y, ENGINE_LAYER_COMMAND, getPlayerColor(_tileupdates_buffer[i].previous_owner), color, ANIM_CONQUER_FLASH_TIME, ANIM_CONQUER_FLASH_NUM), 0, true);
