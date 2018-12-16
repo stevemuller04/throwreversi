@@ -40,6 +40,10 @@ body.container {
 .x::after {
 	content: " (✔)";
 }
+.score {
+	border-radius: .25rem;
+	padding: 0 .5rem;
+}
 </style>
 <script type="text/javascript">
 function ajax(url, method, args, callback)
@@ -96,11 +100,14 @@ Game.prototype.buildBoard = function() {
 };
 Game.prototype.updateBoard = function() {
 	var nBtns = document.getElementById("board").querySelectorAll("button");
+	var numP1 = 0, numP2 = 0;
 	for (var i = 0; i < nBtns.length; i++) {
 		var x = nBtns[i].getAttribute("bx");
 		var y = nBtns[i].getAttribute("by");
 		var p = this.board[y][x];
 		nBtns[i].className = p == 1 ? "blue" : p == 2 ? "red" : "white";
+		if (p == 1) numP1++;
+		if (p == 2) numP2++;
 	}
 	var nBtnP1 = document.getElementById("btnP1");
 	var nBtnP2 = document.getElementById("btnP2");
@@ -110,6 +117,8 @@ Game.prototype.updateBoard = function() {
 	nBtnP2.className = this.player == 2 ? "red x" : "";
 	nBtnP0.className = this.player == 0 ? "white x" : "";
 	nBtnGM.className = this.godmode ? "white x" : "";
+	document.getElementById("scoreP1").textContent = numP1;
+	document.getElementById("scoreP2").textContent = numP2;
 };
 Game.prototype.setPlayer = function(p) {
 	this.player = p;
@@ -134,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() { G.refresh(); });
 </head>
 <body class="container">
 	<div class="row">
-		<h1>ThrowReversi</h1>
+		<h1><span id="scoreP1" class="score blue">0</span> ThrowReversi <span id="scoreP2" class="score red">0</span></h1>
 		<p>Choose a player</p>
 		<p>
 			<button type="button" id="btnP1" onclick="G.setPlayer(1)">blue</button>
