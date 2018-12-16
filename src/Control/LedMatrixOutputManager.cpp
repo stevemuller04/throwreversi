@@ -71,10 +71,10 @@ ledId_t LedMatrixOutputManager::getLedId(coord_t x, coord_t y) const
 	coord_t x_relative_to_quadrant = x % (_width / 2);
 	coord_t y_relative_to_quadrant = y % (_width / 2);
 
-	coord_t x_mapped_to_topleft_quadrant = flipped_quadrant_x_axis ? (_width / 2 - x_relative_to_quadrant) : x_relative_to_quadrant;
-	coord_t y_mapped_to_topleft_quadrant = flipped_quadrant_y_axis ? (_height / 2 - y_relative_to_quadrant) : y_relative_to_quadrant;
+	coord_t x_mapped_to_topleft_quadrant = flipped_quadrant_x_axis ? (_width / 2 - 1 - x_relative_to_quadrant) : x_relative_to_quadrant;
+	coord_t y_mapped_to_topleft_quadrant = flipped_quadrant_y_axis ? (_height / 2 - 1 - y_relative_to_quadrant) : y_relative_to_quadrant;
 
-	switch (10 * y + x)
+	switch (10 * y_mapped_to_topleft_quadrant + x_mapped_to_topleft_quadrant)
 	{
 		case 00: return 6 + quadrant_led_offset;
 		case 01: return 7 + quadrant_led_offset;
