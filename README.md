@@ -3,6 +3,30 @@
 ThrowReversi is a simplified version of the Reversi (Othello) game, but instead of placing disks on a small board, the players need to throw small bags from a certain distance onto a huge board.
 The game is best explained by watching [this video](https://www.youtube.com/watch?v=BXUfnJKLoNQ).
 
+## Rules of play
+
+Players alternatively throw one bag onto the game board, regardless whether they actually hit a tile.
+
+The following rules apply:
+
+**Rule #0**: When a player hits an empty tile, s/he conquers it.
+
+**Rule #1**: When a player manages to surround an enemy tile with two of his own in a straight line, s/he will conquer the enemy tile.
+
+![Rule #1 – Horizontal variant](doc/rule1a.svg) ![Rule #1 – Vertical variant](doc/rule1b.svg) ![Rule #1 – Diagonal variant](doc/rule1c.svg)
+
+**Rule #2**: No tiles will be conquered if there is an empty tile (or an own tile) in-between.
+
+![Rule #2](doc/rule2.svg)
+
+**Rule #3**: Multiple enemy tiles can be conquered that way, if all of them are enclosed by own tiles.
+
+![Rule #3](doc/rule3.svg)
+
+**Rule #4**: Conquering can occur in multiple directions at the same time.
+
+![Rule #4](doc/rule4.svg)
+
 ## Install
 
 ThrowReversi has been designed for the [Kniwwelino](http://www.kniwwelino.lu/), even though it can be run on every ESP8266-compatible board.
